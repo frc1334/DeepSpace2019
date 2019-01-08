@@ -14,4 +14,10 @@ public class Constants {
 
     public static final int kPIDLoopIdx = 0;
 
+    // Tolerance of the PID
+    public static final double kToleranceDegrees = 2.0;
+
+    // Rotation rate of Gyro
+    public static final double kGyroRotationRate = 0.5;
+
 }

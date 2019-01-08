@@ -17,6 +17,7 @@ import frc.robot.Constants;
 /**
  * Add your docs here.
  */
+
 public class DriveSubsystem extends PIDSubsystem {
 
   // Drivetrain TalonSRX map values (roboRIO port values) - 2 cim
@@ -28,15 +29,19 @@ public class DriveSubsystem extends PIDSubsystem {
   // AHRS - navX mxp - Gyro
   AHRS ahrs;
 
-  // Gyro angle
+  // Gyro angle value
   double angle = 0;
 
-  public DriveSubsystem() {
+  public DriveSubsystem () {
     // Calls parent constructor of PIDSubsystem with the parameters: "SubsystemName", kP, kI, kD
     super("DriveSubsystem", Constants.kP, Constants.kI, Constants.kD);
+    super.getPIDController().setInputRange(-180.0,  180.0);
+    super.getPIDController().setOutputRange(-1.0, 1.0);
+    super.getPIDController().setAbsoluteTolerance(Constants.kToleranceDegrees);
+    super.getPIDController().setContinuous(true);
   }
 
-  public void initDefaultCommand() {
+  public void initDefaultCommand () {
 
     // Initialize the Talons so that the Left2 and Right2 Talons will follow the movements of the Left1 and Right 1 Talons
     Left2.set(ControlMode.Follower, RobotMap.Left1);
@@ -57,11 +62,11 @@ public class DriveSubsystem extends PIDSubsystem {
   }
 
   // Method that returns the PID value of the gyro sensor
-  protected double returnPIDInput() {
+  protected double returnPIDInput () {
     return ahrs.pidGet();
   }
 
-  protected void usePIDOutput(double output) {
+  protected void usePIDOutput (double output) {
     // Use output to drive your system, like a motor
     // e.g. yourMotor.set(output);
   }
@@ -72,8 +77,15 @@ public class DriveSubsystem extends PIDSubsystem {
     Right1.set(ControlMode.Position, 0);
   }
 
+  public double GyroDrive (double turn) {
+    angle += turn;
+    int b = (int) angle/180;
+    angle = (float) (angle * Math.pow(-1, b));
+    return angle;
+  }
+  
   // Method to change gyro angle to 0 degrees
-  public void ResetGyroAngle(){
+  public void ResetGyroAngle () {
 	  ahrs.reset();
 	  angle = 0;
 	}
@@ -93,7 +105,7 @@ public class DriveSubsystem extends PIDSubsystem {
   }
   
   // Basic Arcade Drive Method
-  public void ArcadeDrive(double speed, double turn){
+  public void ArcadeDrive (double speed, double turn) {
 		TankDrive(-speed -turn, speed - turn);
 	}
 
