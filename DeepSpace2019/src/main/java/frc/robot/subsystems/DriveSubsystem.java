@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.DriverStation;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
@@ -22,9 +23,9 @@ public class DriveSubsystem extends PIDSubsystem {
 
   // Drivetrain TalonSRX map values (roboRIO port values) - 2 cim
   TalonSRX Left1 = new TalonSRX(RobotMap.Left1);
-  TalonSRX Left2 = new TalonSRX(RobotMap.Left2);
+  VictorSPX Left2 = new VictorSPX(RobotMap.Left2);
   TalonSRX Right1 = new TalonSRX(RobotMap.Right1);
-  TalonSRX Right2 = new TalonSRX(RobotMap.Right2);
+  VictorSPX Right2 = new VictorSPX(RobotMap.Right2);
 
   // AHRS - navX mxp - Gyro
   AHRS ahrs;
@@ -51,24 +52,23 @@ public class DriveSubsystem extends PIDSubsystem {
     Left1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, 50);
     Right1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, 50);
 
+    // Set current limitting on the Left and Right 1 Talons to true
+    Left1.enableCurrentLimit(true);
+    Right1.enableCurrentLimit(true);
+
     // Initialize the AHRS sensor
     try {
       ahrs = new AHRS(SPI.Port.kMXP);
-      ResetGyroAngle();
+      resetGyroAngle();
 		} catch (RuntimeException ex) {
 			DriverStation.reportError("Error instancing navX MXP: " + ex.getMessage(), true);
     }
   
   }
 
-  // Method that returns the PID value of the gyro sensor
-  protected double returnPIDInput () {
-    return ahrs.pidGet();
-  }
-
-  protected void usePIDOutput (double output) {
-    // Use output to drive your system, like a motor
-    // e.g. yourMotor.set(output);
+  public void invertLeftTalons () {
+    // Invert the Left Talons
+    Left1.setInverted(false);
   }
 
   // Method to set the Drive Train to drive with PID
@@ -85,7 +85,7 @@ public class DriveSubsystem extends PIDSubsystem {
   }
   
   // Method to change gyro angle to 0 degrees
-  public void ResetGyroAngle () {
+  public void resetGyroAngle () {
 	  ahrs.reset();
 	  angle = 0;
 	}
@@ -93,20 +93,56 @@ public class DriveSubsystem extends PIDSubsystem {
   // Method to set the Drive Train to drive normally (without PID)
   public void setRegularDrive () {
     Left1.set(ControlMode.Velocity, 0);
-    Right1.set(ControlMode.Position, 0);
+    Right1.set(ControlMode.Velocity, 0);
   }
 
   // Basic Tank Drive Method
   public void TankDrive(double left, double right){
 		Left1.set(ControlMode.PercentOutput, left);
-		Left2.set(ControlMode.PercentOutput, left);
 		Right1.set(ControlMode.PercentOutput, right);
-		Right2.set(ControlMode.PercentOutput, right);
   }
   
   // Basic Arcade Drive Method
   public void ArcadeDrive (double speed, double turn) {
-		TankDrive(-speed -turn, speed - turn);
-	}
+		TankDrive(-speed - turn, speed - turn);
+  }
+
+  // Method that "Soft-shifts" the Talons
+  public void changeCurrentLimit () {
+
+    if (Constants.kCurrentLimited) {
+      Left1.configContinuousCurrentLimit(40);
+      Right1.configContinuousCurrentLimit(40);
+
+      Left1.configPeakCurrentLimit(40);
+      Right1.configPeakCurrentLimit(40);
+    } else {
+      Left1.configContinuousCurrentLimit(60);
+      Right1.configContinuousCurrentLimit(60);
+
+      Left1.configPeakCurrentLimit(60);
+      Right1.configPeakCurrentLimit(60);
+    }
+
+    Constants.kCurrentLimited = !Constants.kCurrentLimited;
+
+  }
+
+  // Method that returns the PID value of the gyro sensor
+  protected double returnPIDInput () {
+    return ahrs.pidGet();
+  }
+
+  // Method that adjusts the Gyro according to the PID outputs
+  protected void usePIDOutput (double output) {
+    if (output > Constants.kMaxGyro) {
+      Constants.kGyroRotationRate = Constants.kMaxGyro;
+    } else if (output <= -Constants.kMaxGyro) {
+      Constants.kGyroRotationRate = -Constants.kMaxGyro;
+    } else {
+      // In between maximum and minimum
+      
+    }
+  }
 
 }
