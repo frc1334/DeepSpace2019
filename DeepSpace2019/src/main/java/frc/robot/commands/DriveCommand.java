@@ -12,7 +12,6 @@ public class DriveCommand extends Command {
     requires(Robot.DriveSubsystem);
   }
 
-  // Called just before this Command runs the first time
   protected void initialize() {
     Robot.DriveSubsystem.invertLeftTalons();
   }
