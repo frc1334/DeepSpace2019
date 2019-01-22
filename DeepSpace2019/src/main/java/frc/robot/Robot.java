@@ -28,6 +28,9 @@ public class Robot extends IterativeRobot {
    */
   @Override
   public void robotInit() {
+
+    DriveSubsystem = new DriveSubsystem();
+
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);

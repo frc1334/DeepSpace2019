@@ -14,6 +14,9 @@ public class Constants {
 
     public static int kPIDLoopIdx = 0;
 
+    // Drive PID minimal voltage constant
+    public static double kMinimalVoltage = 0.25;
+
     // Tolerance of the PID
     public static double kToleranceDegrees = 2.0;
 

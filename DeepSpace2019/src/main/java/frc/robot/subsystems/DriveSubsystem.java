@@ -16,22 +16,28 @@ import frc.robot.RobotMap;
 import frc.robot.Constants;
 
 /**
- * Add your docs here.
+ * 
  */
 
 public class DriveSubsystem extends PIDSubsystem {
 
   // Drivetrain TalonSRX map values (roboRIO port values) - 2 cim
-  TalonSRX Left1 = new TalonSRX(RobotMap.Left1);
-  VictorSPX Left2 = new VictorSPX(RobotMap.Left2);
-  TalonSRX Right1 = new TalonSRX(RobotMap.Right1);
-  VictorSPX Right2 = new VictorSPX(RobotMap.Right2);
+  public TalonSRX Left1 = new TalonSRX(RobotMap.Left1);
+  public VictorSPX Left2 = new VictorSPX(RobotMap.Left2);
+  public TalonSRX Right1 = new TalonSRX(RobotMap.Right1);
+  public VictorSPX Right2 = new VictorSPX(RobotMap.Right2);
 
   // AHRS - navX mxp - Gyro
   AHRS ahrs;
 
   // Gyro angle value
   double angle = 0;
+
+  // These values are used to determine Gyro angles
+  double post = 0;
+  double negt = 0;
+
+  boolean still;
 
   public DriveSubsystem () {
     // Calls parent constructor of PIDSubsystem with the parameters: "SubsystemName", kP, kI, kD
@@ -134,15 +140,31 @@ public class DriveSubsystem extends PIDSubsystem {
   }
 
   // Method that adjusts the Gyro according to the PID outputs
-  protected void usePIDOutput (double output) {
+  public void usePIDOutput (double output) {
     if (output > Constants.kMaxGyro) {
       Constants.kGyroRotationRate = Constants.kMaxGyro;
     } else if (output <= -Constants.kMaxGyro) {
       Constants.kGyroRotationRate = -Constants.kMaxGyro;
     } else {
       // In between maximum and minimum
-      
+      Constants.kGyroRotationRate = output;
     }
+
+    if (still) {
+      if (this.getPIDController().getError()>=2 || this.getPIDController().getError()<=-2) {
+				if (Constants.kGyroRotationRate<= Constants.kMinimalVoltage && Constants.kGyroRotationRate > 0) {
+					post += 1;
+					Constants.kGyroRotationRate = Constants.kMinimalVoltage - ((1-this.getPIDController().getError())/65)+post/100;
+				} else if( Constants.kGyroRotationRate>= -Constants.kMinimalVoltage && Constants.kGyroRotationRate <0) {
+					negt+= 1;
+					Constants.kGyroRotationRate = -Constants.kMinimalVoltage + ((1- this.getPIDController().getError())/65)-negt/100;
+        }
+			} else {
+				post = 0;
+				negt = 0;
+			}
+    }
+
   }
 
 }
