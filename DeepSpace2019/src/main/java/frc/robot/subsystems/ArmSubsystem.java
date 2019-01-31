@@ -1,15 +1,10 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import frc.robot.RobotMap;
 import frc.robot.sensors.LimitSwitch;
@@ -20,7 +15,8 @@ import frc.robot.sensors.LimitSwitch;
 public class ArmSubsystem extends PIDSubsystem {
   
   // Intake Talons
-  TalonSRX Intake = new TalonSRX(RobotMap.Intake);
+  TalonSRX Intake1 = new TalonSRX(RobotMap.Intake1);
+  TalonSRX Intake2 = new TalonSRX(RobotMap.Intake2);
 
   // Arm Talons
 
@@ -45,21 +41,38 @@ public class ArmSubsystem extends PIDSubsystem {
   }
 
   // This method takes in or shoots out a piece of cargo, depending on the direction of Talon spin given
-  public void intake (boolean in) {
-    // If in, then intake
-    if (in) {
-
+  public void intake (boolean in, boolean out) {
+    if (in && !out) {
+      // Set the 2 intake talons to rotate inwards (negative power at 50%)
+      Intake1.set(ControlMode.PercentOutput, -0.5);
+      Intake2.set(ControlMode.PercentOutput, -0.5);
+    } else if (out && !in) {
+      Intake1.set(ControlMode.PercentOutput, 1);
+      Intake2.set(ControlMode.PercentOutput, 1);
+    } else {
+      Intake1.set(ControlMode.PercentOutput, 0);
+      Intake2.set(ControlMode.PercentOutput, 0);
     }
   }
 
   // This method moves the arm base talon
-  public void degreeMoveArmBase (double power) {
-    
+  public void moveArmBase (double power) {
+    ArmBase.set(ControlMode.PercentOutput, power);
   }
 
   // This method moves the forearm of the arm
-  public void degreeMoveForeArm (double power) {
+  public void moveForeArm (double power) {
+    ForeArm.set(ControlMode.PercentOutput, power);
+  }
 
+  // This method moces the arm base by n degrees
+  public void moveArmBaseDegrees (double degrees) {
+
+  }
+
+  // This method moces the forearm by n degrees
+  public void moveForeArmDegrees (double degrees) {
+    
   }
 
   public void initDefaultCommand() {

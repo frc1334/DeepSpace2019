@@ -105,12 +105,12 @@ public class DriveSubsystem extends PIDSubsystem {
   // Basic Tank Drive Method
   public void TankDrive(double left, double right){
 		Left1.set(ControlMode.PercentOutput, left);
-		Right1.set(ControlMode.PercentOutput, right);
+		Right1.set(ControlMode.PercentOutput, -right);
   }
   
   // Basic Arcade Drive Method
   public void ArcadeDrive (double speed, double turn) {
-		TankDrive(-speed - turn, speed - turn);
+		TankDrive(speed - turn, speed + turn);
   }
 
   // Method that "Soft-shifts" the Talons
