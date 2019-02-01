@@ -12,15 +12,14 @@ public class GyroCommand extends Command {
   double Angle;
   double Start, End;
   
-  public GyroCommand() {
+  public GyroCommand (double Angle) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.DriveSubsystem);
-    Angle = 180;
+    this.Angle = Angle;
   }
 
   // Called just before this Command runs the first time
-  @Override
   protected void initialize() {
     Start = System.currentTimeMillis();
     End = System.currentTimeMillis();
@@ -38,10 +37,9 @@ public class GyroCommand extends Command {
     }
   }
 
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
+  // Make this return true when this Command no longer needs to run execute()s
   protected boolean isFinished() {
-    if(End-Start > 200) {
+    if(End - Start > 200) {
       return true;
     }
     return false;

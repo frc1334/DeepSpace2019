@@ -37,7 +37,7 @@ public class DriveSubsystem extends PIDSubsystem {
   double post = 0;
   double negt = 0;
 
-  boolean still;
+  boolean still = true;
 
   public DriveSubsystem () {
     // Calls parent constructor of PIDSubsystem with the parameters: "SubsystemName", kP, kI, kD

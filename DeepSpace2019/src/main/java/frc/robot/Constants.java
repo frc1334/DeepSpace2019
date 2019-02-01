@@ -27,4 +27,10 @@ public class Constants {
 
     public static boolean kCurrentLimited = false;
 
+    // Drivetrain Encoder Values (inches to ticks)
+    public static final double kDriveEncoder = 0.01;
+
+    // Arm Encoder Values (inches to ticks)
+    public static final double kArmEncoder = 0.01;
+
 }

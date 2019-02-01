@@ -14,10 +14,9 @@ public class RobotMap {
     public static final int Right2 = 3;
 
     // Arm / Intake
-    public static final int Intake1 = 4;
-    public static final int Intake2 = 5;
-    public static final int ArmBase = 6;
-    public static final int ForeArm = 7;
-    public static final int Switch = 8;
+    public static final int Intake = 4;
+    public static final int ArmBase = 5;
+    public static final int ForeArm = 6;
+    public static final int Switch = 7;
 
 }
