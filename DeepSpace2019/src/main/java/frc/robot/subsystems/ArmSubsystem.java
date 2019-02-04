@@ -62,7 +62,7 @@ public class ArmSubsystem extends PIDSubsystem {
       // If the limit switch does not hit anything and the arm is moving to release the limit switch
       ArmBase.set(ControlMode.PercentOutput, power);
       // Update the current angle
-      angle = ArmBase.getSelectedSensorPosition() * Constants.kArmEncoder;
+      angle = ArmBase.getSelectedSensorPosition(5) * Constants.kArmEncoder;
     }
 
   }

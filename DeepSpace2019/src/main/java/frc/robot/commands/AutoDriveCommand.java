@@ -21,10 +21,12 @@ public class AutoDriveCommand extends Command {
 
   // Called just before this Command runs the first time
   protected void initialize() {
-    // Initialize starta and end times
+    // Initialize start and end times
     start = System.currentTimeMillis();
     end = System.currentTimeMillis();
-    // 
+    // Initialize autonomous settings
+    Robot.DriveSubsystem.initAutoCommand();
+    
   }
 
   // Called repeatedly when this Command is scheduled to run

@@ -72,9 +72,37 @@ public class DriveSubsystem extends PIDSubsystem {
   
   }
 
+  public void initAutoCommand () {
+
+    // Initialize the Talons so that the Left2 and Right2 Talons will follow the movements of the Left1 and Right 1 Talons
+    Left2.set(ControlMode.Follower, RobotMap.Left1);
+    Right2.set(ControlMode.Follower, RobotMap.Right1);
+
+    // Configure MagEncoders on the Left1 and Right1 Talons: args (FeedbackDevice, kPIDLoopIdx, TimeOutMS)
+    Left1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, 50);
+    Right1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, 50);
+
+    // Make sure encoder output is positive
+    Left1.setSensorPhase(false);
+		Right1.setSensorPhase(false);
+
+    // Set current limitting on the Left and Right 1 Talons to true
+    Left1.enableCurrentLimit(true);
+    Right1.enableCurrentLimit(true);
+
+    // Initialize the AHRS sensor
+    try {
+      ahrs = new AHRS(SPI.Port.kMXP);
+      resetGyroAngle();
+		} catch (RuntimeException ex) {
+			DriverStation.reportError("Error instancing navX MXP: " + ex.getMessage(), true);
+    }
+  
+  }
+
   public void invertLeftTalons () {
     // Invert the Left Talons
-    Left1.setInverted(false);
+    Left1.setInverted(true);
   }
 
   // Method to set the Drive Train to drive with PID

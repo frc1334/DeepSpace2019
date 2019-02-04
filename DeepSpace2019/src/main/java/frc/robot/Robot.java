@@ -2,8 +2,13 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import frc.robot.commands.DriveCommand;
+import frc.robot.commands.GyroCommand;
+
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -15,6 +20,7 @@ import frc.robot.subsystems.DriveSubsystem;
  * project.
  */
 public class Robot extends IterativeRobot {
+  
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
@@ -22,6 +28,9 @@ public class Robot extends IterativeRobot {
 
   public static DriveSubsystem DriveSubsystem;
   public static ArmSubsystem ArmSubsystem;
+
+  public static DriveCommand DriveCommand;
+  public static GyroCommand GyroCommand;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -89,6 +98,9 @@ public class Robot extends IterativeRobot {
    */
   @Override
   public void teleopPeriodic() {
+    Scheduler.getInstance().run();
+    DriveCommand.start();
+    GyroCommand.start();
   }
 
   /**

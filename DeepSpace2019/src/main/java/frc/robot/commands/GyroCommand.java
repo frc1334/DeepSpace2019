@@ -11,6 +11,11 @@ public class GyroCommand extends Command {
 
   double Angle;
   double Start, End;
+
+  public GyroCommand () {
+    requires(Robot.DriveSubsystem);
+    this.Angle = 180;
+  }
   
   public GyroCommand (double Angle) {
     // Use requires() here to declare subsystem dependencies
@@ -53,7 +58,6 @@ public class GyroCommand extends Command {
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
-  @Override
   protected void interrupted() {
   }
 }
