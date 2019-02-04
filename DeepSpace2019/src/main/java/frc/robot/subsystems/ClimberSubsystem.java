@@ -3,18 +3,22 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-/**
- * Add your docs here.
- */
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
+import frc.robot.RobotMap;
+
 public class ClimberSubsystem extends Subsystem {
+
+  // Climber Talon
+  TalonSRX Climb = new TalonSRX(RobotMap.Climber);
   
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    
   }
 
-  public void Climb () {
-    
+  public void ActivateClimbTalon () {
+    Climb.set(ControlMode.PercentOutput, 1);
   }
 
 }

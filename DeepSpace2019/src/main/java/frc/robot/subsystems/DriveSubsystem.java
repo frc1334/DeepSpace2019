@@ -58,10 +58,6 @@ public class DriveSubsystem extends PIDSubsystem {
     Left1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, 50);
     Right1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, 50);
 
-    // Set current limitting on the Left and Right 1 Talons to true
-    Left1.enableCurrentLimit(true);
-    Right1.enableCurrentLimit(true);
-
     // Initialize the AHRS sensor
     try {
       ahrs = new AHRS(SPI.Port.kMXP);
@@ -84,12 +80,8 @@ public class DriveSubsystem extends PIDSubsystem {
 
     // Make sure encoder output is positive
     Left1.setSensorPhase(false);
-		Right1.setSensorPhase(false);
-
-    // Set current limitting on the Left and Right 1 Talons to true
-    Left1.enableCurrentLimit(true);
-    Right1.enableCurrentLimit(true);
-
+    Right1.setSensorPhase(false);
+    
     // Initialize the AHRS sensor
     try {
       ahrs = new AHRS(SPI.Port.kMXP);
@@ -132,6 +124,11 @@ public class DriveSubsystem extends PIDSubsystem {
 
   // Basic Tank Drive Method
   public void TankDrive(double left, double right){
+    if (Constants.kCurrentLimited) {
+      // Limit speed if current limiting is true
+      left *= 0.6;
+      right *= 0.6;
+    }
 		Left1.set(ControlMode.PercentOutput, left);
 		Right1.set(ControlMode.PercentOutput, -right);
   }
@@ -143,23 +140,7 @@ public class DriveSubsystem extends PIDSubsystem {
 
   // Method that "Soft-shifts" the Talons
   public void changeCurrentLimit () {
-
-    if (Constants.kCurrentLimited) {
-      Left1.configContinuousCurrentLimit(40);
-      Right1.configContinuousCurrentLimit(40);
-
-      Left1.configPeakCurrentLimit(40);
-      Right1.configPeakCurrentLimit(40);
-    } else {
-      Left1.configContinuousCurrentLimit(60);
-      Right1.configContinuousCurrentLimit(60);
-
-      Left1.configPeakCurrentLimit(60);
-      Right1.configPeakCurrentLimit(60);
-    }
-
     Constants.kCurrentLimited = !Constants.kCurrentLimited;
-
   }
 
   // Method that returns the PID value of the gyro sensor

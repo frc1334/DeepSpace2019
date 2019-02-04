@@ -17,12 +17,12 @@ public class DriveCommand extends Command {
   }
 
   protected void execute() {
-    // Drive based on the response of the Driver's speed and steer
-    Robot.DriveSubsystem.ArcadeDrive(OI.getDriverSpeed(), OI.getDriverSteer());
     // Change the Current Limit on the Drivetrain's Talons if neccesary
     if (OI.changeDriverCurrentLimit()) {
       Robot.DriveSubsystem.changeCurrentLimit();
     }
+    // Drive based on the response of the Driver's speed and steer
+    Robot.DriveSubsystem.ArcadeDrive(OI.getDriverSpeed(), OI.getDriverSteer());
   }
 
   protected boolean isFinished() {
