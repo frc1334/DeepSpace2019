@@ -12,13 +12,20 @@ public class ClimberSubsystem extends Subsystem {
 
   // Climber Talon
   TalonSRX Climb = new TalonSRX(RobotMap.Climber);
+  TalonSRX Clamp = new TalonSRX(RobotMap.Clamp);
   
   public void initDefaultCommand() {
     
   }
 
-  public void ActivateClimbTalon () {
-    Climb.set(ControlMode.PercentOutput, 1);
+  // Method to clamp onto the hab station
+  public void Clamp () {
+    Clamp.set(ControlMode.PercentOutput, 1);
+  }
+
+  // Method to "back-flip" onto the hab station
+  public void Climb () {
+    Climb.set(ControlMode.PercentOutput, 0.5);
   }
 
 }

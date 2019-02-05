@@ -2,7 +2,7 @@
 package frc.robot;
 
 /**
- * Constant values for PID, Frame dimensions, Field Dimensions .etc
+ * Constant values for PID, Frame dimensions, Encoder ticks to angle/inches constants .etc
  */
 
 public class Constants {
@@ -32,5 +32,10 @@ public class Constants {
 
     // Arm Encoder Values (inches to ticks)
     public static final double kArmEncoder = 0.01;
+
+    // Arm PID Constants
+    public static double kAP = 0.03;
+    public static double kAI = 0.0;
+    public static double kAD = 0.0;
 
 }

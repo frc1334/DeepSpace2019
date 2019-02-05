@@ -21,5 +21,6 @@ public class RobotMap {
 
     // Climber
     public static final int Climber = 8;
+    public static final int Clamp = 9;
 
 }
