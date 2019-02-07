@@ -32,8 +32,10 @@ public class ArmSubsystem extends PIDSubsystem {
 
   // This double records the angle the arm is currently at
   double angle;
+  // This double records the destination angle (setpoint)
+  double dAngle;
 
-  public ArmSubsystem() {
+  public ArmSubsystem () {
     // Intert a subsystem name and PID values here
     super("ArmSubsystem", Constants.kAP, Constants.kAI, Constants.kAD);
   }
@@ -50,7 +52,7 @@ public class ArmSubsystem extends PIDSubsystem {
     }
   }
 
-  // This method moves the arm base talon
+  // This method moves the arm base talon (power also acts as direction, negative is counter clockwise and positive is clockwise)
   public void moveArmBase (double power) {
 
     if (ArmBound.get()) {
@@ -72,6 +74,11 @@ public class ArmSubsystem extends PIDSubsystem {
     ForeArm.set(ControlMode.PercentOutput, power);
   }
 
+  // This method sets the destination angle/set point
+  public void setDestAngle (double dAngle) {
+    this.dAngle = dAngle;
+  }
+
   // This method moves the arm base to a certain degree position (from 0 - 180)
   public void moveArmBaseToDegree (double destDegree) {
     // How many degrees the arm base needs to move
@@ -89,14 +96,22 @@ public class ArmSubsystem extends PIDSubsystem {
   }
 
   protected double returnPIDInput () {
-    // Return your input value for the PID loop
-    // e.g. a sensor, like a potentiometer:
-    // yourPot.getAverageVoltage() / kYourMaxVoltage;
-    return 0.0;
+    // Return the current angle that the arm is at
+    return ArmBase.getSelectedSensorPosition(5) * Constants.kArmEncoder;
   }
 
   protected void usePIDOutput (double output) {
-    // Use output to drive your system, like a motor
-    // e.g. yourMotor.set(output);
+
+    // Error term (destination angle - output, output is the current angle)
+    double error = dAngle - output;
+
+    // If the arm needs to move counter clockwise (the error is negative) - current position is behind destination
+    if (error < 0) {
+      moveArmBase(-0.5);
+    } else if (error > 0) {
+      // If the arm needs to move clockwise (the error is positive) - current position is in front of destination
+      moveArmBase(0.5);
+    }
+
   }
 }
