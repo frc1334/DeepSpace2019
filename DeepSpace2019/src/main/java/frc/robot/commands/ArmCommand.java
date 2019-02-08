@@ -11,7 +11,7 @@ public class ArmCommand extends Command {
 
   // This double records the destination angle
   double dAngle;
-
+  
   // Start and End times
   double Start, End;
 

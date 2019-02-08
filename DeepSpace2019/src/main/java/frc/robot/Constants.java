@@ -11,6 +11,7 @@ public class Constants {
     public static double kP = 0.03;
     public static double kI = 0.0;
     public static double kD = 0.0;
+    public static double kF = 0.0;
 
     public static int kPIDLoopIdx = 0;
 
@@ -40,5 +41,6 @@ public class Constants {
     public static double kAP = 0.03;
     public static double kAI = 0.0;
     public static double kAD = 0.0;
+    public static double kAF = 0.0;
 
 }

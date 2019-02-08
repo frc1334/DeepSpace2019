@@ -20,8 +20,10 @@ public class RobotMap {
     public static final int Switch = 7;
 
     // Climber
-    public static final int Climber = 8;
-    public static final int Clamp = 9;
+    public static final int Climber1 = 8;
+    public static final int Climber2 = 9;
+    public static final int Clamp1 = 10;
+    public static final int Clamp2 = 11;
 
     public static final int Compressor = 0;
 
