@@ -23,4 +23,6 @@ public class RobotMap {
     public static final int Climber = 8;
     public static final int Clamp = 9;
 
+    public static final int Compressor = 0;
+
 }

@@ -38,13 +38,17 @@ public class ArmSubsystem extends PIDSubsystem {
   public ArmSubsystem () {
     // Intert a subsystem name and PID values here
     super("ArmSubsystem", Constants.kAP, Constants.kAI, Constants.kAD);
+    super.getPIDController().setInputRange(0.0, 180.0);
+    super.getPIDController().setOutputRange(0.0, 180.0);
+    super.getPIDController().setAbsoluteTolerance(Constants.kToleranceArm);
+    super.getPIDController().setContinuous(true);
   }
 
   // This method takes in or shoots out a piece of cargo, depending on the direction of Talon spin given
   public void intake (boolean in, boolean out) {
     if (in && !out) {
       // Set the 2 intake talons to rotate inwards (negative power at 50%)
-      Intake.set(ControlMode.PercentOutput, -0.5);
+      Intake.set(ControlMode.PercentOutput, -1);
     } else if (out && !in) {
       Intake.set(ControlMode.PercentOutput, 1);
     } else {
@@ -79,24 +83,12 @@ public class ArmSubsystem extends PIDSubsystem {
     this.dAngle = dAngle;
   }
 
-  // This method moves the arm base to a certain degree position (from 0 - 180)
-  public void moveArmBaseToDegree (double destDegree) {
-    // How many degrees the arm base needs to move
-    double mValue = destDegree - angle;
-  }
-
-  // This method moves the fore arm to a certain degree position (from 0 - 180)
-  public void moveForeArmToDegree (double destDegree) {
-    // How many degrees the fore arm needs to move
-    double mValue = destDegree - angle;
-  }
-
   public void initDefaultCommand () {
     ArmBase.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 50);
   }
 
   protected double returnPIDInput () {
-    // Return the current angle that the arm is at
+    // Return the current angle that the arm is at (angle)
     return ArmBase.getSelectedSensorPosition(5) * Constants.kArmEncoder;
   }
 
@@ -111,6 +103,9 @@ public class ArmSubsystem extends PIDSubsystem {
     } else if (error > 0) {
       // If the arm needs to move clockwise (the error is positive) - current position is in front of destination
       moveArmBase(0.5);
+    } else {
+      // Otherwise, arm is in position, maintain level
+      moveArmBase(0);
     }
 
   }

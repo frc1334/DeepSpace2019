@@ -1,6 +1,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -26,6 +27,9 @@ public class DriveSubsystem extends PIDSubsystem {
   public VictorSPX Left2 = new VictorSPX(RobotMap.Left2);
   public TalonSRX Right1 = new TalonSRX(RobotMap.Right1);
   public VictorSPX Right2 = new VictorSPX(RobotMap.Right2);
+
+  // Compressor
+  public Compressor compressor = new Compressor(RobotMap.Compressor);
 
   // AHRS - navX mxp - Gyro
   AHRS ahrs;
@@ -58,6 +62,9 @@ public class DriveSubsystem extends PIDSubsystem {
     Left1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, 50);
     Right1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, 50);
 
+    // Set compressor to a closed loop control
+    compressor.setClosedLoopControl(true);
+
     // Initialize the AHRS sensor
     try {
       ahrs = new AHRS(SPI.Port.kMXP);
@@ -67,6 +74,10 @@ public class DriveSubsystem extends PIDSubsystem {
     }
   
   }
+
+  public void CompressorControl(){
+		compressor.setClosedLoopControl(true);
+	}
 
   public void initAutoCommand () {
 
@@ -150,6 +161,7 @@ public class DriveSubsystem extends PIDSubsystem {
 
   // Method that adjusts the Gyro according to the PID outputs
   public void usePIDOutput (double output) {
+
     if (output > Constants.kMaxGyro) {
       Constants.kGyroRotationRate = Constants.kMaxGyro;
     } else if (output <= -Constants.kMaxGyro) {

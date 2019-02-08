@@ -17,8 +17,11 @@ public class Constants {
     // Drive PID minimal voltage constant
     public static double kMinimalVoltage = 0.25;
 
-    // Tolerance of the PID
+    // Tolerance of the PID for Gyro/Drive
     public static double kToleranceDegrees = 2.0;
+
+    // Tolerance of the Arm PID (degrees)
+    public static double kToleranceArm = 1.5;
 
     // Gyro Constants
     public static double kGyroRotationRate = 0.5;
@@ -31,7 +34,7 @@ public class Constants {
     public static final double kDriveEncoder = 0.01;
 
     // Arm Encoder Values (inches to ticks)
-    public static final double kArmEncoder = 0.01;
+    public static final double kArmEncoder = 360.0/1024.0;
 
     // Arm PID Constants
     public static double kAP = 0.03;
