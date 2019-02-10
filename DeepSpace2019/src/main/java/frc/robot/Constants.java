@@ -21,6 +21,9 @@ public class Constants {
     // Tolerance of the PID for Gyro/Drive
     public static double kToleranceDegrees = 2.0;
 
+    // PID timeout value
+    public static int kTimeoutMs = 0;
+
     // Tolerance of the Arm PID (degrees)
     public static double kToleranceArm = 1.5;
 
@@ -42,5 +45,21 @@ public class Constants {
     public static double kAI = 0.0;
     public static double kAD = 0.0;
     public static double kAF = 0.0;
+
+    // Vision Constants
+
+    // Field view
+    public static final double kVisionFieldViewWidthPx = 640;
+    public static final double kVisionFieldViewHeightPx = 480;
+
+    // x and y coordinates of 2 blobs
+
+    // Left blob
+    public static double x1 = 0;
+    public static double y1 = 0;
+
+    // Right blob
+    public static double x2 = 0;
+    public static double y2 = 0;
 
 }

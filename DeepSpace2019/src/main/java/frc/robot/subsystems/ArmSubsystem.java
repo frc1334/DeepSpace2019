@@ -57,20 +57,32 @@ public class ArmSubsystem extends PIDSubsystem {
   }
 
   // This method moves the arm base talon (power also acts as direction, negative is counter clockwise and positive is clockwise)
-  public void moveArmBase (double power) {
+  public void moveArmBase (boolean clockwise) {
 
     if (ArmBound.get()) {
       // Limit Switch activated - Reset encoder values
-      ArmBase.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 50);
+      angle = 0;
     }
 
-    if (!ArmBound.get() && power > 0) {
+    if (!ArmBound.get() && clockwise) {
       // If the limit switch does not hit anything and the arm is moving to release the limit switch
-      ArmBase.set(ControlMode.PercentOutput, power);
-      // Update the current angle
-      angle = ArmBase.getSelectedSensorPosition(5) * Constants.kArmEncoder;
+      ArmBase.set(ControlMode.PercentOutput, 0.6);
+    } else if (!ArmBound.get() && !clockwise) {
+      // If the limit switch does not hit anything and the arm is moving to release the limit switch
+      ArmBase.set(ControlMode.PercentOutput, -0.6);
+    } else if (ArmBound.get() && clockwise) {
+      // The arm is hitting the limit switch and the arm is to be turnd clockwise (allow)
+      ArmBase.set(ControlMode.PercentOutput, 0.6);
     }
 
+    // Update the current angle
+    angle = ArmBase.getSelectedSensorPosition(5) * Constants.kArmEncoder;
+
+  }
+
+  // This method feeds a powerlevel of 0 into the arm (maintains level)
+  public void maintainLevel () {
+    ArmBase.set(ControlMode.PercentOutput, 0);
   }
 
   // This method moves the forearm of the arm
@@ -99,13 +111,13 @@ public class ArmSubsystem extends PIDSubsystem {
 
     // If the arm needs to move counter clockwise (the error is negative) - current position is behind destination
     if (error < 0) {
-      moveArmBase(-0.5);
+      moveArmBase(false);
     } else if (error > 0) {
       // If the arm needs to move clockwise (the error is positive) - current position is in front of destination
-      moveArmBase(0.5);
+      moveArmBase(true);
     } else {
       // Otherwise, arm is in position, maintain level
-      moveArmBase(0);
+      maintainLevel();
     }
 
   }

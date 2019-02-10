@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -100,6 +101,20 @@ public class DriveSubsystem extends PIDSubsystem {
 		} catch (RuntimeException ex) {
 			DriverStation.reportError("Error instancing navX MXP: " + ex.getMessage(), true);
     }
+
+    Left1.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0,10, Constants.kTimeoutMs);
+		Left1.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.kTimeoutMs);
+		Right1.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0,10,Constants.kTimeoutMs);
+		Right1.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.kTimeoutMs);
+		// set the peak and nominal outputs, 12V means full
+		Left1.configNominalOutputForward(0, Constants.kTimeoutMs);
+		Left1.configNominalOutputReverse(0, Constants.kTimeoutMs);
+		Left1.configPeakOutputForward(1, Constants.kTimeoutMs);
+		Left1.configPeakOutputReverse(-1, Constants.kTimeoutMs);
+		Right1.configNominalOutputForward(0, Constants.kTimeoutMs);
+		Right1.configNominalOutputReverse(0, Constants.kTimeoutMs);
+		Right1.configPeakOutputForward(1, Constants.kTimeoutMs);
+		Right1.configPeakOutputReverse(-1, Constants.kTimeoutMs);
   
   }
 
