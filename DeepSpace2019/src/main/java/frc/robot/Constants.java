@@ -17,6 +17,8 @@ public class Constants {
 
     // Drive PID minimal voltage constant
     public static double kMinimalVoltage = 0.25;
+    // Autonomous Drive PID minimal voltage constant
+    public static double kAutoMinimalVoltage = 0.13;
 
     // Tolerance of the PID for Gyro/Drive
     public static double kToleranceDegrees = 2.0;
@@ -35,8 +37,7 @@ public class Constants {
     public static boolean kCurrentLimited = false;
 
     // Drivetrain Encoder Values (inches to ticks)
-    public static final double kDriveEncoder = 0.01;
-
+    public static final double kDriveEncoder = 3.43774677003357 * 1024 / 12 / 2; //146.68
     // Arm Encoder Values (inches to ticks)
     public static final double kArmEncoder = 360.0/1024.0;
 
@@ -48,7 +49,7 @@ public class Constants {
 
     // Vision Constants
 
-    // Field view
+    // Field view (FOV of camera)
     public static final double kVisionFieldViewWidthPx = 640;
     public static final double kVisionFieldViewHeightPx = 480;
 

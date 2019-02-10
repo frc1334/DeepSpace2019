@@ -24,8 +24,8 @@ public class VisionCommand extends Command {
     // This variable stores the center y values (average of the 2 y coordinates)
     double centerPointY = (Constants.y1 + Constants.y2) / 2;
 
-    // If the target is approximately 
-    if (Math.abs(x - centerPointX) >= 270) {
+    // If the target is approximately within 50 pixels to the left on the x axis and 20 pixels to the y axis, return true
+    if (Math.abs(x - centerPointX) >= 270 && Math.abs(y - centerPointY) <= 20) {
       return true;
     }
 
@@ -40,7 +40,7 @@ public class VisionCommand extends Command {
     // This variable stores the center y values (average of the 2 y coordinates)
     double centerPointY = (Constants.y1 + Constants.y2) / 2;
 
-    if (Math.abs(x - centerPointX) <= 370) {
+    if (Math.abs(x - centerPointX) <= 370 && Math.abs(y - centerPointY) <= 20) {
       return true;
     }
 

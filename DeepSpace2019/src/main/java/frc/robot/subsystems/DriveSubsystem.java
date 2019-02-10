@@ -42,7 +42,9 @@ public class DriveSubsystem extends PIDSubsystem {
   double post = 0;
   double negt = 0;
 
-  boolean still = true;
+  public boolean kSensorPhase = true;
+  public boolean isClose = false;
+  public boolean still = true;
 
   public DriveSubsystem () {
     // Calls parent constructor of PIDSubsystem with the parameters: "SubsystemName", kP, kI, kD
@@ -116,6 +118,12 @@ public class DriveSubsystem extends PIDSubsystem {
 		Right1.configPeakOutputForward(1, Constants.kTimeoutMs);
 		Right1.configPeakOutputReverse(-1, Constants.kTimeoutMs);
   
+  }
+
+  // Sets the quadrature (relative) sensor to match absolute
+  public void setQuadAbsolute (int lAbsolutePos, int rAbsolutePos) {
+    Left1.setSelectedSensorPosition(lAbsolutePos, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+    Right1.setSelectedSensorPosition(rAbsolutePos, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
   }
 
   public void invertLeftTalons () {
