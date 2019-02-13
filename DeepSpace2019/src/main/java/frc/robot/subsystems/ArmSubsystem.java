@@ -2,6 +2,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -20,6 +21,9 @@ public class ArmSubsystem extends PIDSubsystem {
   // Intake Talons
   TalonSRX Intake = new TalonSRX(RobotMap.Intake);
 
+  // Intake Solenoids
+  DoubleSolenoid IntakeSol = new DoubleSolenoid(RobotMap.IntakeSol1, RobotMap.IntakeSol2);
+
   // Arm Talons
 
   // Arm base Talon
@@ -31,7 +35,7 @@ public class ArmSubsystem extends PIDSubsystem {
   LimitSwitch ArmBound = new LimitSwitch(RobotMap.Switch);
 
   // This double records the angle the arm is currently at
-  double angle;
+  public double angle;
   // This double records the destination angle (setpoint)
   double dAngle;
 
@@ -54,6 +58,17 @@ public class ArmSubsystem extends PIDSubsystem {
     } else {
       Intake.set(ControlMode.PercentOutput, 0);
     }
+  }
+
+  // This method is used to eject hatch panels off the intake
+  public void hatchEject () {
+
+    // Activate the solenoids
+    IntakeSol.set(DoubleSolenoid.Value.kReverse);
+
+    // Close solenoids after ejection
+    IntakeSol.set(DoubleSolenoid.Value.kForward);
+
   }
 
   // This method moves the arm base talon (power also acts as direction, negative is counter clockwise and positive is clockwise)
@@ -80,14 +95,31 @@ public class ArmSubsystem extends PIDSubsystem {
 
   }
 
+  public void moveArmBasePercent (double power) {
+    if (!ArmBound.get()) {
+      ArmBase.set(ControlMode.PercentOutput, power);
+    }
+  }
+
+  public void moveForeArmPercent (double power) {
+    ForeArm.set(ControlMode.PercentOutput, power);
+
+    // Update the current angle
+    angle = ArmBase.getSelectedSensorPosition(5) * Constants.kArmEncoder;
+  }
+
   // This method feeds a powerlevel of 0 into the arm (maintains level)
   public void maintainLevel () {
     ArmBase.set(ControlMode.PercentOutput, 0);
   }
 
-  // This method moves the forearm of the arm
-  public void moveForeArm (double power) {
-    ForeArm.set(ControlMode.PercentOutput, power);
+  // This method moves the forearm of the arm (wrist)
+  public void moveForeArm (boolean clockwise) {
+    if (clockwise) {
+      ForeArm.set(ControlMode.PercentOutput, 0.6);
+    } else if (!clockwise) {
+      ForeArm.set(ControlMode.PercentOutput, -0.6);
+    }
   }
 
   // This method sets the destination angle/set point
@@ -100,7 +132,7 @@ public class ArmSubsystem extends PIDSubsystem {
   }
 
   protected double returnPIDInput () {
-    // Return the current angle that the arm is at (angle)
+    // Return the current angle
     return ArmBase.getSelectedSensorPosition(5) * Constants.kArmEncoder;
   }
 
@@ -110,13 +142,13 @@ public class ArmSubsystem extends PIDSubsystem {
     double error = dAngle - output;
 
     // If the arm needs to move counter clockwise (the error is negative) - current position is behind destination
-    if (error < 0) {
+    if (Math.abs(error) > Constants.kToleranceArm && error < 0) {
       moveArmBase(false);
-    } else if (error > 0) {
+    } else if (Math.abs(error) > Constants.kToleranceArm && error > 0) {
       // If the arm needs to move clockwise (the error is positive) - current position is in front of destination
       moveArmBase(true);
-    } else {
-      // Otherwise, arm is in position, maintain level
+    } else if (Math.abs(error) <= Constants.kToleranceArm) {
+      // Otherwise, arm is in position (within a certain tolerance), maintain level
       maintainLevel();
     }
 

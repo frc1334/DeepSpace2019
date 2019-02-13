@@ -16,5 +16,6 @@ public class DefaultAuto extends CommandGroup {
   public DefaultAuto() {
     addSequential(new AutoDriveCommand(10));
     addSequential(new GyroCommand(90));
+    addSequential(new ArmCommand(45));
   }
 }
