@@ -98,6 +98,8 @@ public class ArmSubsystem extends PIDSubsystem {
   public void moveArmBasePercent (double power) {
     if (!ArmBound.get()) {
       ArmBase.set(ControlMode.PercentOutput, power);
+      // Update the current angle if moving via control
+      dAngle = ArmBase.getSelectedSensorPosition(5) * Constants.kArmEncoder;
     }
   }
 
