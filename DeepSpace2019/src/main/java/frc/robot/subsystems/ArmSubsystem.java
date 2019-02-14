@@ -37,7 +37,7 @@ public class ArmSubsystem extends PIDSubsystem {
   // This double records the angle the arm is currently at
   public double angle;
   // This double records the destination angle (setpoint)
-  double dAngle;
+  public double dAngle;
 
   public ArmSubsystem () {
     // Intert a subsystem name and PID values here

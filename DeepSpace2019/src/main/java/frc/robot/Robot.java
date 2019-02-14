@@ -35,6 +35,7 @@ public class Robot extends TimedRobot {
 
   public static DriveCommand DriveCommand;
   public static GyroCommand GyroCommand;
+  public static ArmCommand ArmCommand;
   public static VisionCommand VisionCommand;
 
   public static NetworkTable Pitable;

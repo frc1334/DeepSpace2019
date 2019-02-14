@@ -46,7 +46,7 @@ public class OI {
     }
 
     public static double getForeArmPercent () {
-        return Operator.getRawAxis(3);
+        return Operator.getRawAxis(5);
     }
 
     public static boolean groundPickUp () {
@@ -57,16 +57,24 @@ public class OI {
         return Operator.getBButton();
     }
 
-    public static boolean positionArm180Deg () {
-        return Operator.getYButton();
-    }
-
     public static boolean getIntake () {
         return Operator.getTriggerAxis(Hand.kLeft) > 0.15;
     }
 
     public static boolean getOuttake () {
         return Operator.getTriggerAxis(Hand.kRight) > 0.15;
+    }
+
+    public static boolean positionArm0Deg () {
+        return Operator.getPOV() == 90;
+    }
+
+    public static boolean positionArm90Deg () {
+        return Operator.getPOV() == 0;
+    }
+
+    public static boolean positionArm180Deg () {
+        return Operator.getPOV() == 270;
     }
 
 }
