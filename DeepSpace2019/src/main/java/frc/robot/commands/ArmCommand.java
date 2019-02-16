@@ -19,6 +19,9 @@ public class ArmCommand extends Command {
 
   // Called repeatedly when this Command is scheduled to run
   protected void execute () {
+
+    // Check OI to see if the destination angle (setpoint) of the arm PID needs to be updated
+
     if (OI.positionArm0Deg()) {
       Robot.ArmSubsystem.dAngle = 0;
     } else if (OI.positionArm90Deg()) {
@@ -27,11 +30,16 @@ public class ArmCommand extends Command {
       Robot.ArmSubsystem.dAngle = 135;
     }
 
+    // Move the arm via PID to the setpoint (either maintain level or continue course if the value was not changed or move to new angle)
     Robot.ArmSubsystem.setSetpoint(Robot.ArmSubsystem.dAngle);
+
   }
 
   // Make this return true when this Command no longer needs to run execute()
   protected boolean isFinished () {
+    // if (Robot.ArmSubsystem.angle == Robot.ArmSubsystem.dAngle) {
+    //   return true;
+    // }
     return false;
   }
 

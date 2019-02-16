@@ -55,7 +55,12 @@ public class Robot extends TimedRobot {
 
   public void robotInit() {
 
+    // Initialize the subsystems
     DriveSubsystem = new DriveSubsystem();
+    ArmSubsystem = new ArmSubsystem();
+    ClimberSubsystem = new ClimberSubsystem();
+
+    // Vision
 
     NetworkTableInstance inst = NetworkTableInstance.getDefault();
     Pitable = inst.getTable("networkTable");
