@@ -53,4 +53,10 @@ public class Constants {
     public static final double kVisionFieldViewWidthPx = 640;
     public static final double kVisionFieldViewHeightPx = 480;
 
+    // Encoder positions (ticks) of each stage (256 tick encoder)
+    public static final int kAEGH = 0;
+    public static final int kAEL1 = 64;
+    public static final int kAEL2 = 128;
+    public static final int kAEDP = 256;
+
 }

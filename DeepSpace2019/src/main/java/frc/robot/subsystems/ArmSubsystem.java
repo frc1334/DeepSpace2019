@@ -17,6 +17,13 @@ import frc.robot.sensors.LimitSwitch;
  */
 
 public class ArmSubsystem extends PIDSubsystem {
+
+  public enum Level {
+    groundH,
+    Lev1,
+    Lev2,
+    defaultPosition
+  }
   
   // Intake Talons
   TalonSRX Intake = new TalonSRX(RobotMap.Intake);
@@ -46,6 +53,11 @@ public class ArmSubsystem extends PIDSubsystem {
     super.getPIDController().setOutputRange(0.0, 135.0);
     super.getPIDController().setAbsoluteTolerance(Constants.kToleranceArm);
     super.getPIDController().setContinuous(true);
+
+    ArmBase.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+    ArmBase.setSelectedSensorPosition(0);
+    ArmBase.configMotionAcceleration(60);
+    ArmBase.configMotionCruiseVelocity(200);
   }
 
   // This method takes in or shoots out a piece of cargo, depending on the direction of Talon spin given
@@ -155,4 +167,26 @@ public class ArmSubsystem extends PIDSubsystem {
     }
 
   }
+
+  public void setPosition (Level target) {
+    switch (target) {
+      case groundH:
+        setMotionMagicPosition(Constants.kAEGH);
+        break;
+      case Lev1:
+        setMotionMagicPosition(Constants.kAEL1);
+        break;
+      case Lev2:
+        setMotionMagicPosition(Constants.kAEL2);
+        break;
+      case defaultPosition:
+        setMotionMagicPosition(Constants.kAEDP);
+        break;
+    }
+  }
+
+  public void setMotionMagicPosition(int encoderValue){
+    ArmBase.set(ControlMode.MotionMagic, encoderValue);
+  }
+
 }
