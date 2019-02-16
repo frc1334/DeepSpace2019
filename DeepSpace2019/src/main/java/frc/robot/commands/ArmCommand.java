@@ -23,8 +23,8 @@ public class ArmCommand extends Command {
       Robot.ArmSubsystem.dAngle = 0;
     } else if (OI.positionArm90Deg()) {
       Robot.ArmSubsystem.dAngle = 90;
-    } else if (OI.positionArm180Deg()) {
-      Robot.ArmSubsystem.dAngle = 180;
+    } else if (OI.positionArm135Deg()) {
+      Robot.ArmSubsystem.dAngle = 135;
     }
 
     Robot.ArmSubsystem.setSetpoint(Robot.ArmSubsystem.dAngle);

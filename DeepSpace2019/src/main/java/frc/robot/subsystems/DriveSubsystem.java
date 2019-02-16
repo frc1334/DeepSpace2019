@@ -30,7 +30,7 @@ public class DriveSubsystem extends PIDSubsystem {
   public VictorSPX Right2 = new VictorSPX(RobotMap.Right2);
 
   // Compressor
-  public Compressor compressor = new Compressor(RobotMap.Compressor);
+  //public Compressor compressor = new Compressor(RobotMap.Compressor);
 
   // AHRS - navX mxp - Gyro
   AHRS ahrs;
@@ -66,7 +66,7 @@ public class DriveSubsystem extends PIDSubsystem {
     Right1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, 50);
 
     // Set compressor to a closed loop control
-    compressor.setClosedLoopControl(true);
+    //compressor.setClosedLoopControl(true);
 
     // Initialize the AHRS sensor
     try {
@@ -79,7 +79,7 @@ public class DriveSubsystem extends PIDSubsystem {
   }
 
   public void CompressorControl(){
-		compressor.setClosedLoopControl(true);
+		//compressor.setClosedLoopControl(true);
 	}
 
   public void initAutoCommand () {

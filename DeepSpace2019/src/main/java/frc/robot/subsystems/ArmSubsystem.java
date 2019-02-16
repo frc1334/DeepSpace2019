@@ -42,8 +42,8 @@ public class ArmSubsystem extends PIDSubsystem {
   public ArmSubsystem () {
     // Intert a subsystem name and PID values here
     super("ArmSubsystem", Constants.kAP, Constants.kAI, Constants.kAD);
-    super.getPIDController().setInputRange(0.0, 180.0);
-    super.getPIDController().setOutputRange(0.0, 180.0);
+    super.getPIDController().setInputRange(0.0, 135.0);
+    super.getPIDController().setOutputRange(0.0, 135.0);
     super.getPIDController().setAbsoluteTolerance(Constants.kToleranceArm);
     super.getPIDController().setContinuous(true);
   }

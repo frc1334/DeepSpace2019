@@ -17,30 +17,20 @@ public class VisionCommand extends Command {
   }
 
   // This method is used for the widgets on the left side of the camera
-  public boolean getLeftVisionInView (double x, double y) {
+  public boolean getLeftVisionInView (double tapeYaw) {
 
-    // This variable stores the center x values (average of the 2 x coordinates)
-    double centerPointX = (Constants.x1 + Constants.x2) / 2;
-    // This variable stores the center y values (average of the 2 y coordinates)
-    double centerPointY = (Constants.y1 + Constants.y2) / 2;
-
-    // If the target is approximately within 50 pixels to the left on the x axis and 20 pixels to the y axis, return true
-    if (Math.abs(x - centerPointX) >= 270 && Math.abs(y - centerPointY) <= 20) {
+    if (Math.abs(tapeYaw) <= 2.0) {
       return true;
     }
 
     return false;
+    
   }
 
   // This method is used for the widgets on the right side of the camera
-  public boolean getRightVisionInView (double x, double y) {
+  public boolean getRightVisionInView (double tapeYaw) {
 
-    // This variable stores the center x values (average of the 2 x coordinates)
-    double centerPointX = (Constants.x1 + Constants.x2) / 2;
-    // This variable stores the center y values (average of the 2 y coordinates)
-    double centerPointY = (Constants.y1 + Constants.y2) / 2;
-
-    if (Math.abs(x - centerPointX) <= 370 && Math.abs(y - centerPointY) <= 20) {
+    if (Math.abs(tapeYaw) <= 2.0) {
       return true;
     }
 

@@ -53,14 +53,4 @@ public class Constants {
     public static final double kVisionFieldViewWidthPx = 640;
     public static final double kVisionFieldViewHeightPx = 480;
 
-    // x and y coordinates of 2 blobs
-
-    // Left blob
-    public static double x1 = 0;
-    public static double y1 = 0;
-
-    // Right blob
-    public static double x2 = 0;
-    public static double y2 = 0;
-
 }

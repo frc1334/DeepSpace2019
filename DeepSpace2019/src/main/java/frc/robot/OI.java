@@ -73,7 +73,7 @@ public class OI {
         return Operator.getPOV() == 0;
     }
 
-    public static boolean positionArm180Deg () {
+    public static boolean positionArm135Deg () {
         return Operator.getPOV() == 270;
     }
 

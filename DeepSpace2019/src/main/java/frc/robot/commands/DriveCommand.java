@@ -10,6 +10,7 @@ public class DriveCommand extends Command {
   
   public DriveCommand() {
     requires(Robot.DriveSubsystem);
+    requires(Robot.ClimberSubsystem);
   }
 
   protected void initialize() {
@@ -17,6 +18,18 @@ public class DriveCommand extends Command {
   }
 
   protected void execute() {
+
+    // Climber deploy
+    if (OI.deployClimber()) {
+
+    }
+
+    // Clamp the climber onto the hab station if neccesary
+    Robot.ClimberSubsystem.Clamp(OI.climberClamp());
+
+    // Backflip with the climber if neccesary (hold button)
+    Robot.ClimberSubsystem.Climb(OI.climberBackFlip());
+
     // Change the Current Limit on the Drivetrain's Talons if neccesary
     if (OI.changeDriverCurrentLimit()) {
       Robot.DriveSubsystem.changeCurrentLimit();

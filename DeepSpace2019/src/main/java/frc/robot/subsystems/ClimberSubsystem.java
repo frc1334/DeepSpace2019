@@ -11,7 +11,7 @@ import frc.robot.RobotMap;
 
 public class ClimberSubsystem extends Subsystem {
 
-  // Climber Talon
+  // Climber Talon - Climb2 is inverted so the talon needs to be manually inverted
   TalonSRX Climb1 = new TalonSRX(RobotMap.Climber1);
   TalonSRX Climb2 = new TalonSRX(RobotMap.Climber2);
 
@@ -19,7 +19,7 @@ public class ClimberSubsystem extends Subsystem {
   DoubleSolenoid Clamp = new DoubleSolenoid(RobotMap.Clamp1, RobotMap.Clamp2);
   
   public void initDefaultCommand() {
-    Climb2.set(ControlMode.Follower, RobotMap.Climber1);
+    // Climb2.set(ControlMode.Follower, RobotMap.Climber1);
   }
 
   // Method to clamp onto the hab station
@@ -36,10 +36,10 @@ public class ClimberSubsystem extends Subsystem {
     if (clockwise) {
       // Rotate clockwise
       Climb1.set(ControlMode.PercentOutput, 0.5);
-      Climb2.set(ControlMode.PercentOutput, 0.5);
+      Climb2.set(ControlMode.PercentOutput, -0.5);
     } else if (!clockwise) {
       Climb1.set(ControlMode.PercentOutput, -0.5);
-      Climb2.set(ControlMode.PercentOutput, -0.5);
+      Climb2.set(ControlMode.PercentOutput, 0.5);
     }
   }
 
