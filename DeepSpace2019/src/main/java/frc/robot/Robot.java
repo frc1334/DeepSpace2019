@@ -57,27 +57,30 @@ public class Robot extends TimedRobot {
 
     // Initialize the subsystems
     DriveSubsystem = new DriveSubsystem();
-    ArmSubsystem = new ArmSubsystem();
     ClimberSubsystem = new ClimberSubsystem();
+    ArmSubsystem = new ArmSubsystem();
+
+    DriveCommand = new DriveCommand();
+    ArmCommand = new ArmCommand();
 
     // Vision
 
-    NetworkTableInstance inst = NetworkTableInstance.getDefault();
-    Pitable = inst.getTable("networkTable");
+    // NetworkTableInstance inst = NetworkTableInstance.getDefault();
+    // Pitable = inst.getTable("networkTable");
 
-    Tape = Pitable.getEntry("Tape");
-    Driver = Pitable.getEntry("Driver");
+    // Tape = Pitable.getEntry("Tape");
+    // Driver = Pitable.getEntry("Driver");
 
-    Tape.setBoolean(true);
-    Driver.setBoolean(false);
+    // Tape.setBoolean(true);
+    // Driver.setBoolean(false);
 
-    TapeYaw = Pitable.getEntry("tapeYaw");
-    CargoYaw = Pitable.getEntry("cargoYaw");
+    // TapeYaw = Pitable.getEntry("tapeYaw");
+    // CargoYaw = Pitable.getEntry("cargoYaw");
 
-    // Camera stream source: http://roborio-TEAM-frc.local:1181/?action=stream
+    // // Camera stream source: http://roborio-TEAM-frc.local:1181/?action=stream
 
-    UsbCamera Camera = CameraServer.getInstance().startAutomaticCapture();
-    Camera.setResolution(640, 480);
+    // UsbCamera Camera = CameraServer.getInstance().startAutomaticCapture();
+    // Camera.setResolution(640, 480);
 
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
@@ -122,8 +125,8 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
 
     // Put Left and Right Vision widgets (list boolean box)
-    SmartDashboard.putBoolean("Left", VisionCommand.getLeftVisionInView(TapeYaw.getDouble(0.0)));
-    SmartDashboard.putBoolean("Right", VisionCommand.getRightVisionInView(TapeYaw.getDouble(0.0)));
+   // SmartDashboard.putBoolean("Left", VisionCommand.getLeftVisionInView(TapeYaw.getDouble(0.0)));
+   // SmartDashboard.putBoolean("Right", VisionCommand.getRightVisionInView(TapeYaw.getDouble(0.0)));
 
     switch (m_autoSelected) {
       case kCustomAuto:
@@ -143,12 +146,15 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
 
     // Put Left and Right Vision widgets (list boolean box)
-    SmartDashboard.putBoolean("Left", VisionCommand.getLeftVisionInView(TapeYaw.getDouble(0.0)));
-    SmartDashboard.putBoolean("Right", VisionCommand.getRightVisionInView(TapeYaw.getDouble(0.0)));
+  //  SmartDashboard.putBoolean("Left", VisionCommand.getLeftVisionInView(TapeYaw.getDouble(0.0)));
+  //  SmartDashboard.putBoolean("Right", VisionCommand.getRightVisionInView(TapeYaw.getDouble(0.0)));
 
-    Scheduler.getInstance().run();
+    SmartDashboard.putNumber("Arm Angle", ArmSubsystem.getCurrentAngle());
+
+    Scheduler.getInstance().run();                         
     DriveCommand.start();
-
+    ArmCommand.start();
+    
   }
 
   /**

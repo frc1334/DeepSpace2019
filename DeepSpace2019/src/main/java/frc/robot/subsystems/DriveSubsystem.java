@@ -62,8 +62,8 @@ public class DriveSubsystem extends PIDSubsystem {
     Right2.set(ControlMode.Follower, RobotMap.Right1);
 
     // Configure MagEncoders on the Left1 and Right1 Talons: args (FeedbackDevice, kPIDLoopIdx, TimeOutMS)
-    Left1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, 50);
-    Right1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, 50);
+    //Left1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, 50);
+    //Right1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, 50);
 
     // Set compressor to a closed loop control
     //compressor.setClosedLoopControl(true);
@@ -89,8 +89,8 @@ public class DriveSubsystem extends PIDSubsystem {
     Right2.set(ControlMode.Follower, RobotMap.Right1);
 
     // Configure MagEncoders on the Left1 and Right1 Talons: args (FeedbackDevice, kPIDLoopIdx, TimeOutMS)
-    Left1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, 50);
-    Right1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, 50);
+    //Left1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, 50);
+    //Right1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, 50);
 
     // Make sure encoder output is positive
     Left1.setSensorPhase(false);
@@ -169,7 +169,7 @@ public class DriveSubsystem extends PIDSubsystem {
   
   // Basic Arcade Drive Method
   public void ArcadeDrive (double speed, double turn) {
-		TankDrive(speed - turn, speed + turn);
+		TankDrive(speed - turn, - speed - turn);
   }
 
   // Method that "Soft-shifts" the Talons

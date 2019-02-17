@@ -27,17 +27,15 @@ public class DriveCommand extends Command {
   protected void execute() {
 
     // Climber code
-
-    // Climber deploy
-    if (OI.deployClimber()) {
-
+    
+    if (!OI.climberBackFlip() && !OI.climberFrontFlip()) {
+      Robot.ClimberSubsystem.Stop();
+    } else if (OI.climberBackFlip()) {
+      // Backflip with the climber if neccesary (hold button)
+      Robot.ClimberSubsystem.Climb(false);
+    } else if (OI.climberFrontFlip()) {
+      Robot.ClimberSubsystem.Climb(true);
     }
-
-    // Clamp the climber onto the hab station if neccesary
-    Robot.ClimberSubsystem.Clamp(OI.climberClamp());
-
-    // Backflip with the climber if neccesary (hold button)
-    Robot.ClimberSubsystem.Climb(OI.climberBackFlip());
 
     // Drive Code
 

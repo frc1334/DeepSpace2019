@@ -42,7 +42,7 @@ public class Constants {
     public static final double kArmEncoder = 360.0/1024.0;
 
     // Arm PID Constants
-    public static double kAP = 0.03;
+    public static double kAP = 0.05;
     public static double kAI = 0.0;
     public static double kAD = 0.0;
     public static double kAF = 0.0;
@@ -56,7 +56,7 @@ public class Constants {
     // Encoder positions (ticks) of each stage (256 tick encoder)
     public static final int kAEGH = 0;
     public static final int kAEL1 = 64;
-    public static final int kAEL2 = 128;
-    public static final int kAEDP = 256;
+    public static final int kAEL2 = 80;
+    public static final int kAEDP = 140;
 
 }

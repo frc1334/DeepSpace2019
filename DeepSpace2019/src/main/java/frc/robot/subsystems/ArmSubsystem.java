@@ -10,7 +10,6 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 import frc.robot.RobotMap;
 import frc.robot.Constants;
-import frc.robot.sensors.LimitSwitch;
 
 /**
  * Add your docs here.
@@ -29,7 +28,7 @@ public class ArmSubsystem extends PIDSubsystem {
   TalonSRX Intake = new TalonSRX(RobotMap.Intake);
 
   // Intake Solenoids
-  DoubleSolenoid IntakeSol = new DoubleSolenoid(RobotMap.IntakeSol1, RobotMap.IntakeSol2);
+  // DoubleSolenoid IntakeSol = new DoubleSolenoid(RobotMap.IntakeSol1, RobotMap.IntakeSol2);
 
   // Arm Talons
 
@@ -37,9 +36,6 @@ public class ArmSubsystem extends PIDSubsystem {
   TalonSRX ArmBase = new TalonSRX(RobotMap.ArmBase);
   // Fore arm Talon
   TalonSRX ForeArm = new TalonSRX(RobotMap.ForeArm);
-
-  // Limit Switch
-  LimitSwitch ArmBound = new LimitSwitch(RobotMap.Switch);
 
   // This double records the angle the arm is currently at
   public double angle;
@@ -54,8 +50,8 @@ public class ArmSubsystem extends PIDSubsystem {
     super.getPIDController().setAbsoluteTolerance(Constants.kToleranceArm);
     super.getPIDController().setContinuous(true);
 
-    ArmBase.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
-    ArmBase.setSelectedSensorPosition(0);
+    ArmBase.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    ArmBase.setSelectedSensorPosition(5);
     ArmBase.configMotionAcceleration(60);
     ArmBase.configMotionCruiseVelocity(200);
   }
@@ -64,9 +60,9 @@ public class ArmSubsystem extends PIDSubsystem {
   public void intake (boolean in, boolean out) {
     if (in && !out) {
       // Set the 2 intake talons to rotate inwards (negative power at 50%)
-      Intake.set(ControlMode.PercentOutput, -1);
+      Intake.set(ControlMode.PercentOutput, -0.5);
     } else if (out && !in) {
-      Intake.set(ControlMode.PercentOutput, 1);
+      Intake.set(ControlMode.PercentOutput, 0.5);
     } else {
       Intake.set(ControlMode.PercentOutput, 0);
     }
@@ -76,30 +72,22 @@ public class ArmSubsystem extends PIDSubsystem {
   public void hatchEject () {
 
     // Activate the solenoids
-    IntakeSol.set(DoubleSolenoid.Value.kReverse);
+    //IntakeSol.set(DoubleSolenoid.V           aalue.kReverse);
 
     // Close solenoids after ejection
-    IntakeSol.set(DoubleSolenoid.Value.kForward);
+    //IntakeSol.set(DoubleSolenoid.Value.kForward);
 
   }
 
   // This method moves the arm base talon (power also acts as direction, negative is counter clockwise and positive is clockwise)
   public void moveArmBase (boolean clockwise) {
 
-    if (ArmBound.get()) {
-      // Limit Switch activated - Reset encoder values
-      angle = 0;
-    }
-
-    if (!ArmBound.get() && clockwise) {
+    if (clockwise) {
       // If the limit switch does not hit anything and the arm is moving to release the limit switch
       ArmBase.set(ControlMode.PercentOutput, 0.6);
-    } else if (!ArmBound.get() && !clockwise) {
+    } else if (!clockwise) {
       // If the limit switch does not hit anything and the arm is moving to release the limit switch
       ArmBase.set(ControlMode.PercentOutput, -0.6);
-    } else if (ArmBound.get() && clockwise) {
-      // The arm is hitting the limit switch and the arm is to be turnd clockwise (allow)
-      ArmBase.set(ControlMode.PercentOutput, 0.6);
     }
 
     // Update the current angle
@@ -108,12 +96,10 @@ public class ArmSubsystem extends PIDSubsystem {
   }
 
   public void moveArmBasePercent (double power) {
-    if (!ArmBound.get()) {
       ArmBase.set(ControlMode.PercentOutput, power);
       // Update the current angle if moving via control
       dAngle = ArmBase.getSelectedSensorPosition(5) * Constants.kArmEncoder;
     }
-  }
 
   public void moveForeArmPercent (double power) {
     ForeArm.set(ControlMode.PercentOutput, power);
@@ -187,6 +173,10 @@ public class ArmSubsystem extends PIDSubsystem {
 
   public void setMotionMagicPosition(int encoderValue){
     ArmBase.set(ControlMode.MotionMagic, encoderValue);
+  }
+
+  public double getCurrentAngle () {
+    return angle;
   }
 
 }

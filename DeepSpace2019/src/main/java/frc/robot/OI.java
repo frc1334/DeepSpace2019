@@ -16,7 +16,7 @@ public class OI {
     // DRIVER
 
     public static double getDriverSpeed () {
-        return Driver.getTriggerAxis(Hand.kRight) - Driver.getTriggerAxis(Hand.kLeft);
+        return Driver.getTriggerAxis(Hand.kLeft) - Driver.getTriggerAxis(Hand.kRight);
     }
 
     public static double getDriverSteer () {
@@ -27,7 +27,7 @@ public class OI {
         return Driver.getXButton();
     }
 
-    public static boolean deployClimber () {
+    public static boolean climberFrontFlip () {
         return Driver.getAButton();
     }
 
@@ -49,11 +49,11 @@ public class OI {
         return Operator.getRawAxis(5);
     }
 
-    public static boolean groundPickUp () {
+    public static boolean positionArm0Deg () {
         return Operator.getAButton();
     }
 
-    public static boolean LowLevel () {
+    public static boolean positionArm90Deg () {
         return Operator.getBButton();
     }
 
@@ -65,11 +65,11 @@ public class OI {
         return Operator.getTriggerAxis(Hand.kRight) > 0.15;
     }
 
-    public static boolean positionArm0Deg () {
+    public static boolean groundPickup () {
         return Operator.getPOV() == 90;
     }
 
-    public static boolean positionArm90Deg () {
+    public static boolean LowLevel () {
         return Operator.getPOV() == 0;
     }
 
