@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.cscore.VideoMode;
 import edu.wpi.cscore.MjpegServer;
 import edu.wpi.cscore.UsbCamera;
 
@@ -79,7 +80,8 @@ public class Robot extends TimedRobot {
 
     // // Camera stream source: http://roborio-TEAM-frc.local:1181/?action=stream
 
-    // UsbCamera Camera = CameraServer.getInstance().startAutomaticCapture();
+    UsbCamera Camera = CameraServer.getInstance().startAutomaticCapture(0);
+    Camera.setVideoMode(VideoMode.PixelFormat.kMJPEG, 640, 360, 30);
     // Camera.setResolution(640, 480);
 
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
@@ -151,7 +153,7 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putNumber("Arm Angle", ArmSubsystem.getCurrentAngle());
 
-    Scheduler.getInstance().run();                         
+    Scheduler.getInstance().run();
     DriveCommand.start();
     ArmCommand.start();
     

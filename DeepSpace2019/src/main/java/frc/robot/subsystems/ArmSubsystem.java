@@ -49,11 +49,6 @@ public class ArmSubsystem extends PIDSubsystem {
     super.getPIDController().setOutputRange(0.0, 135.0);
     super.getPIDController().setAbsoluteTolerance(Constants.kToleranceArm);
     super.getPIDController().setContinuous(true);
-
-    ArmBase.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-    ArmBase.setSelectedSensorPosition(5);
-    ArmBase.configMotionAcceleration(60);
-    ArmBase.configMotionCruiseVelocity(200);
   }
 
   // This method takes in or shoots out a piece of cargo, depending on the direction of Talon spin given
@@ -72,7 +67,7 @@ public class ArmSubsystem extends PIDSubsystem {
   public void hatchEject () {
 
     // Activate the solenoids
-    //IntakeSol.set(DoubleSolenoid.V           aalue.kReverse);
+    //IntakeSol.set(DoubleSolenoid.Value.kReverse);
 
     // Close solenoids after ejection
     //IntakeSol.set(DoubleSolenoid.Value.kForward);
@@ -84,10 +79,10 @@ public class ArmSubsystem extends PIDSubsystem {
 
     if (clockwise) {
       // If the limit switch does not hit anything and the arm is moving to release the limit switch
-      ArmBase.set(ControlMode.PercentOutput, 0.6);
+      ArmBase.set(ControlMode.PercentOutput, 0.5);
     } else if (!clockwise) {
       // If the limit switch does not hit anything and the arm is moving to release the limit switch
-      ArmBase.set(ControlMode.PercentOutput, -0.6);
+      ArmBase.set(ControlMode.PercentOutput, -0.5);
     }
 
     // Update the current angle
@@ -96,10 +91,11 @@ public class ArmSubsystem extends PIDSubsystem {
   }
 
   public void moveArmBasePercent (double power) {
-      ArmBase.set(ControlMode.PercentOutput, power);
-      // Update the current angle if moving via control
-      dAngle = ArmBase.getSelectedSensorPosition(5) * Constants.kArmEncoder;
-    }
+    ArmBase.set(ControlMode.PercentOutput, power);
+
+    // Update the current angle
+    dAngle = ArmBase.getSelectedSensorPosition(5) * Constants.kArmEncoder;
+  }
 
   public void moveForeArmPercent (double power) {
     ForeArm.set(ControlMode.PercentOutput, power);
@@ -116,9 +112,9 @@ public class ArmSubsystem extends PIDSubsystem {
   // This method moves the forearm of the arm (wrist)
   public void moveForeArm (boolean clockwise) {
     if (clockwise) {
-      ForeArm.set(ControlMode.PercentOutput, 0.6);
+      ForeArm.set(ControlMode.PercentOutput, 0.5);
     } else if (!clockwise) {
-      ForeArm.set(ControlMode.PercentOutput, -0.6);
+      ForeArm.set(ControlMode.PercentOutput, -0.5);
     }
   }
 
@@ -128,7 +124,10 @@ public class ArmSubsystem extends PIDSubsystem {
   }
 
   public void initDefaultCommand () {
-    ArmBase.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 50);
+    ArmBase.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    ArmBase.setSelectedSensorPosition(5);
+    ArmBase.configMotionAcceleration(60);
+    ArmBase.configMotionCruiseVelocity(200);
   }
 
   protected double returnPIDInput () {
@@ -155,6 +154,7 @@ public class ArmSubsystem extends PIDSubsystem {
   }
 
   public void setPosition (Level target) {
+    // Move the talon to the matching encoder position based on each enum target case
     switch (target) {
       case groundH:
         setMotionMagicPosition(Constants.kAEGH);

@@ -55,8 +55,8 @@ public class Constants {
 
     // Encoder positions (ticks) of each stage (256 tick encoder)
     public static final int kAEGH = 0;
-    public static final int kAEL1 = 64;
-    public static final int kAEL2 = 80;
-    public static final int kAEDP = 140;
+    public static final int kAEL1 = -64;
+    public static final int kAEL2 = -80;
+    public static final int kAEDP = -140;
 
 }
