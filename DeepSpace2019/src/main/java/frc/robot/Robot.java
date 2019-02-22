@@ -35,10 +35,12 @@ public class Robot extends TimedRobot {
   public static DriveSubsystem DriveSubsystem;
   public static ArmSubsystem ArmSubsystem;
   public static ClimberSubsystem ClimberSubsystem;
+ // public static ArmSubsystem2 ArmSubsystem2;
 
   public static DriveCommand DriveCommand;
   public static GyroCommand GyroCommand;
   public static ArmCommand ArmCommand;
+  //public static ArmCommand2 ArmCommand2;
   public static VisionCommand VisionCommand;
 
   public static NetworkTable Pitable;
@@ -60,9 +62,11 @@ public class Robot extends TimedRobot {
     DriveSubsystem = new DriveSubsystem();
     ClimberSubsystem = new ClimberSubsystem();
     ArmSubsystem = new ArmSubsystem();
+   // ArmSubsystem2 = new ArmSubsystem2();
 
     DriveCommand = new DriveCommand();
     ArmCommand = new ArmCommand();
+    //ArmCommand2 = new ArmCommand2();
 
     // Vision
 
@@ -109,7 +113,7 @@ public class Robot extends TimedRobot {
    * LabVIEW Dashboard, remove all of the chooser code and uncomment the
    * getString line to get the auto name from the text box below the Gyro
    *
-   * <p>You can add additional auto modes by adding additional comparisons to
+   *  <p>You can add additional auto modes by adding additional comparisons to
    * the switch structure below with additional strings. If using the
    * SendableChooser make sure to add them to the chooser code above as well.
    */
@@ -152,8 +156,10 @@ public class Robot extends TimedRobot {
   //  SmartDashboard.putBoolean("Right", VisionCommand.getRightVisionInView(TapeYaw.getDouble(0.0)));
 
     SmartDashboard.putNumber("Arm Angle", ArmSubsystem.getCurrentAngle());
+    SmartDashboard.putNumber("Setpoint", ArmSubsystem.getSetpoint());
 
     Scheduler.getInstance().run();
+
     DriveCommand.start();
     ArmCommand.start();
     

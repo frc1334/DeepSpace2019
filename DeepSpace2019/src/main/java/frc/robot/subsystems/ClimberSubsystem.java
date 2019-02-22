@@ -40,11 +40,11 @@ public class ClimberSubsystem extends Subsystem {
   public void Climb (boolean clockwise) {
     if (clockwise) {
       // Rotate clockwise
-      Climb1.set(ControlMode.PercentOutput, 0.7);
-      Climb2.set(ControlMode.PercentOutput, -0.7);
+      Climb1.set(ControlMode.PercentOutput, 0.35);
+      Climb2.set(ControlMode.PercentOutput, -0.35);
     } else if (!clockwise) {
-      Climb1.set(ControlMode.PercentOutput, -0.7);
-      Climb2.set(ControlMode.PercentOutput, 0.7);
+      Climb1.set(ControlMode.PercentOutput, -0.35);
+      Climb2.set(ControlMode.PercentOutput, 0.35);
     }
   }
 

@@ -43,9 +43,9 @@ public class Constants {
 
     // Arm PID Constants
     public static double kAP = 0.05;
-    public static double kAI = 0.0;
-    public static double kAD = 0.0;
-    public static double kAF = 0.0;
+    public static double kAI = 0.1;
+    public static double kAD = 0.3;
+    public static double kAF = 0.1;
 
     // Vision Constants
 

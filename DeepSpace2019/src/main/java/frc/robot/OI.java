@@ -2,7 +2,10 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.HIDType;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /*
  * Operator Interface - Maps controller actions to the actions/capabilities of the robot
@@ -11,6 +14,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 public class OI {
 
     public static final XboxController Driver = new XboxController(0);
+    
     public static final XboxController Operator = new XboxController(1);
 
     // DRIVER

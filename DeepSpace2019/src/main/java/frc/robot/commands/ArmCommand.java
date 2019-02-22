@@ -20,6 +20,9 @@ public class ArmCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   protected void execute () {
 
+    // Update the current angle position
+    Robot.ArmSubsystem.updateAngle();
+
     // Check OI to see if the destination angle (setpoint) of the arm PID needs to be updated
 
     if (OI.positionArm0Deg()) {
@@ -43,8 +46,9 @@ public class ArmCommand extends Command {
     // Use intake
     Robot.ArmSubsystem.intake(OI.getIntake(), OI.getOuttake());
 
+
     // Move the arm via PID to the setpoint (either maintain level or continue course if the value was not changed or move to new angle)
-     Robot.ArmSubsystem.setSetpoint(Robot.ArmSubsystem.dAngle);
+    Robot.ArmSubsystem.setSetpoint(Robot.ArmSubsystem.dAngle);
 
   }
 
