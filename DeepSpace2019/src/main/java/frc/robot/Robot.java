@@ -134,15 +134,8 @@ public class Robot extends TimedRobot {
    // SmartDashboard.putBoolean("Left", VisionCommand.getLeftVisionInView(TapeYaw.getDouble(0.0)));
    // SmartDashboard.putBoolean("Right", VisionCommand.getRightVisionInView(TapeYaw.getDouble(0.0)));
 
-    switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
-    }
+    DriveCommand.start();
+    
   }
 
   /**

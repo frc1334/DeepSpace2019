@@ -28,8 +28,8 @@ public class ArmSubsystem extends PIDSubsystem {
   // Intake Talons
   TalonSRX Intake = new TalonSRX(RobotMap.Intake);
 
-  // Intake Solenoids
-  // DoubleSolenoid IntakeSol = new DoubleSolenoid(RobotMap.IntakeSol1, RobotMap.IntakeSol2);
+  // Hatch Panel Clamp Intake
+  TalonSRX Clamp = new TalonSRX(RobotMap.Clamp);
 
   // Arm Talons
 
@@ -42,6 +42,9 @@ public class ArmSubsystem extends PIDSubsystem {
   public double angle;
   // This double records the destination angle (setpoint)
   public double dAngle;
+
+  // This boolean is a toggle switch for the clamp direction (hold and release)
+  public boolean toggleClamp = false;
 
   public ArmSubsystem () {
     // Intert a subsystem name and PID values here
@@ -69,15 +72,26 @@ public class ArmSubsystem extends PIDSubsystem {
     }
   }
 
-  // This method is used to eject hatch panels off the intake
-  public void hatchEject () {
-
-    // Activate the solenoids
-    //IntakeSol.set(DoubleSolenoid.Value.kReverse);
-
-    // Close solenoids after ejection
-    //IntakeSol.set(DoubleSolenoid.Value.kForward);
-
+  // This method triggers whether to move, hold or release the clamp mechanism
+  public void triggerClamp (boolean trigger) {
+    // Default position is clamped
+    if (trigger) {
+      if (toggleClamp) {
+        // Release the clamp
+        for (int ticks=0; ticks<2000; ticks++) {
+          Clamp.set(ControlMode.PercentOutput, 1);
+        }
+      } else if (!toggleClamp) {
+        // Activate clamp
+        for (int ticks=0; ticks<2000; ticks++) {
+          Clamp.set(ControlMode.PercentOutput, -1);
+        }
+      }
+      // Reverse the toggle switch
+      toggleClamp = !toggleClamp;
+    } else if (!trigger) {
+      Clamp.set(ControlMode.PercentOutput, 0);
+    }
   }
 
   // This method moves the arm base talon (power also acts as direction, negative is counter clockwise and positive is clockwise)
