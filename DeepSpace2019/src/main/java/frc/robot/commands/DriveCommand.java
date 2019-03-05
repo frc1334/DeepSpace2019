@@ -4,6 +4,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.Robot;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.OI;
 
 /*
@@ -28,14 +29,8 @@ public class DriveCommand extends Command {
 
     // Climber code
     
-    if (!OI.climberBackFlip() && !OI.climberFrontFlip()) {
-      Robot.ClimberSubsystem.Stop();
-    } else if (OI.climberBackFlip()) {
-      // Backflip with the climber if neccesary (hold button)
-      Robot.ClimberSubsystem.Climb(false);
-    } else if (OI.climberFrontFlip()) {
-      Robot.ClimberSubsystem.Climb(true);
-    }
+    Robot.ClimberSubsystem.Deploy(OI.climberDeploy());
+    Robot.ClimberSubsystem.Climb(OI.climb());
 
     // Drive Code
 

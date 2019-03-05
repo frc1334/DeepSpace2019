@@ -31,15 +31,11 @@ public class OI {
         return Driver.getXButton();
     }
 
-    public static boolean climberFrontFlip () {
-        return Driver.getAButton();
-    }
-
-    public static boolean climberClamp () {
+    public static boolean climberDeploy () {
         return Driver.getBButton();
     }
 
-    public static boolean climberBackFlip () {
+    public static boolean climb () {
         return Driver.getYButton();
     }
 
