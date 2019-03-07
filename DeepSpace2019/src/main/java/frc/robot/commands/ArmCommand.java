@@ -27,17 +27,23 @@ public class ArmCommand extends Command {
 
     if (OI.positionArm0Deg()) {
       Robot.ArmSubsystem.dAngle = 0;
+      // Move the arm via PID to the setpoint (either maintain level or continue course if the value was not changed or move to new angle)
+      Robot.ArmSubsystem.setSetpoint(Robot.ArmSubsystem.dAngle);
     } else if (OI.positionArm90Deg()) {
       Robot.ArmSubsystem.dAngle = 90;
+      // Move the arm via PID to the setpoint (either maintain level or continue course if the value was not changed or move to new angle)
+      Robot.ArmSubsystem.setSetpoint(Robot.ArmSubsystem.dAngle);
     } else if (OI.positionArm135Deg()) {
       Robot.ArmSubsystem.dAngle = 135;
+      // Move the arm via PID to the setpoint (either maintain level or continue course if the value was not changed or move to new angle)
+      Robot.ArmSubsystem.setSetpoint(Robot.ArmSubsystem.dAngle);
     }
 
     if (Math.abs(OI.getArmBasePercent()) >= 0.1) {
       // Move the arm via variable control
       Robot.ArmSubsystem.moveArmBasePercent(OI.getArmBasePercent());
-    } else {
-      Robot.ArmSubsystem.maintainLevel();
+      // Update the current angle position
+      Robot.ArmSubsystem.updateAngle();
     }
 
     // Move the wrist via variable control
@@ -45,10 +51,6 @@ public class ArmCommand extends Command {
 
     // Use intake
     Robot.ArmSubsystem.intake(OI.getIntake(), OI.getOuttake());
-
-
-    // Move the arm via PID to the setpoint (either maintain level or continue course if the value was not changed or move to new angle)
-    Robot.ArmSubsystem.setSetpoint(Robot.ArmSubsystem.dAngle);
 
   }
 
