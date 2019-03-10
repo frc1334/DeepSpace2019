@@ -42,11 +42,11 @@ public class OI {
     // OPERATOR
 
     public static double getArmBasePercent () {
-        return Operator.getRawAxis(1);
+        return Operator.getRawAxis(1) * -0.5;
     }
 
     public static double getForeArmPercent () {
-        return Operator.getRawAxis(5);
+        return Operator.getRawAxis(5) * -0.5;
     }
 
     public static boolean positionArm0Deg () {
