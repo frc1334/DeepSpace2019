@@ -46,10 +46,7 @@ public class Robot extends TimedRobot {
   public static NetworkTable Pitable;
 
   public static NetworkTableEntry TapeYaw;
-  public static NetworkTableEntry CargoYaw;
-
-  public static NetworkTableEntry Tape;
-  public static NetworkTableEntry Driver;
+  public static NetworkTableEntry TapeDetected;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -70,14 +67,12 @@ public class Robot extends TimedRobot {
 
     // Vision
 
-    // NetworkTableInstance inst = NetworkTableInstance.getDefault();
-    // Pitable = inst.getTable("networkTable");
+    NetworkTableInstance inst = NetworkTableInstance.getDefault();
+    Pitable = inst.getTable("networkTable");
 
-    // Tape = Pitable.getEntry("Tape");
-    // Driver = Pitable.getEntry("Driver");
+    TapeDetected = Pitable.getEntry("Tape");
 
-    // Tape.setBoolean(true);
-    // Driver.setBoolean(false);
+    TapeDetected.setBoolean(true);
 
     // TapeYaw = Pitable.getEntry("tapeYaw");
     // CargoYaw = Pitable.getEntry("cargoYaw");
