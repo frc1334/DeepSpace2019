@@ -28,9 +28,6 @@ public class ArmSubsystem extends PIDSubsystem {
   // Intake Talons
   TalonSRX Intake = new TalonSRX(RobotMap.Intake);
 
-  // Hatch Panel Clamp Intake
-  TalonSRX Clamp = new TalonSRX(RobotMap.Clamp);
-
   // Arm Talons
 
   // Arm base Talon
@@ -55,9 +52,14 @@ public class ArmSubsystem extends PIDSubsystem {
     super.getPIDController().setContinuous(false);
   }
 
-  // This ethod updates the curren angle
+  // This ethod updates the current angle
   public void updateAngle () {
     angle = ArmBase.getSelectedSensorPosition(0) * Constants.kArmEncoder;
+  }
+
+  // This method updates the destination angle (for manual control and staying in place)
+  public void updateDAngle () {
+    dAngle = ArmBase.getSelectedSensorPosition(0) * Constants.kArmEncoder;
   }
 
   // This method takes in or shoots out a piece of cargo, depending on the direction of Talon spin given
@@ -69,28 +71,6 @@ public class ArmSubsystem extends PIDSubsystem {
       Intake.set(ControlMode.PercentOutput, 0.30);
     } else {
       Intake.set(ControlMode.PercentOutput, 0);
-    }
-  }
-
-  // This method triggers whether to move, hold or release the clamp mechanism
-  public void triggerClamp (boolean trigger) {
-    // Default position is clamped
-    if (trigger) {
-      if (toggleClamp) {
-        // Release the clamp
-        for (int ticks=0; ticks<2000; ticks++) {
-          Clamp.set(ControlMode.PercentOutput, 1);
-        }
-      } else if (!toggleClamp) {
-        // Activate clamp
-        for (int ticks=0; ticks<2000; ticks++) {
-          Clamp.set(ControlMode.PercentOutput, -1);
-        }
-      }
-      // Reverse the toggle switch
-      toggleClamp = !toggleClamp;
-    } else if (!trigger) {
-      Clamp.set(ControlMode.PercentOutput, 0);
     }
   }
 

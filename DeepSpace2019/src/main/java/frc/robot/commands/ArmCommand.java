@@ -44,6 +44,10 @@ public class ArmCommand extends Command {
       Robot.ArmSubsystem.moveArmBasePercent(OI.getArmBasePercent());
       // Update the current angle position
       Robot.ArmSubsystem.updateAngle();
+      // Update the destination angle to where the operator wants it
+      Robot.ArmSubsystem.updateDAngle();
+      // Move the arm via PID to the setpoint (either maintain level or continue course if the value was not changed or move to new angle)
+      Robot.ArmSubsystem.setSetpoint(Robot.ArmSubsystem.angle);
     }
 
     // Move the wrist via variable control
