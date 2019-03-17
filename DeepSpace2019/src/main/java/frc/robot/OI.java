@@ -20,53 +20,66 @@ public class OI {
     // DRIVER
 
     public static double getDriverSpeed () {
-        return Driver.getTriggerAxis(Hand.kLeft) - Driver.getTriggerAxis(Hand.kRight);
+        return Driver.getTriggerAxis(Hand.kRight) - Driver.getTriggerAxis(Hand.kLeft);
     }
 
     public static double getDriverSteer () {
         return Driver.getRawAxis(0);
     }
 
-    public static boolean changeDriverCurrentLimit () {
+    public static boolean unwind () {
         return Driver.getXButton();
     }
 
-    public static boolean climberDeploy () {
+    public static boolean climb () {
         return Driver.getBButton();
     }
 
-    public static boolean climb () {
-        return Driver.getYButton();
+    public static boolean climbDeploy () {
+        return Driver.getAButton();
     }
 
     // OPERATOR
 
     public static double getArmBasePercent () {
-        return Operator.getRawAxis(1) * -0.5;
+        return (Operator.getRawAxis(1));
     }
 
     public static double getForeArmPercent () {
-        return Operator.getRawAxis(5) * -0.5;
+        return (Operator.getRawAxis(5));
     }
 
     public static boolean positionArm0Deg () {
-        return Operator.getAButton();
+        return false;
     }
 
     public static boolean positionArm90Deg () {
-        return Operator.getBButton();
+        return false;
+    }
+
+    public static boolean driveWristUpFixed () {
+        return Operator.getAButton();
+    }
+
+    public static boolean driveWristDownFixed () {
+        return Operator.getBButton(); 
+    }  
+
+    public static boolean groundPickup () {
+        return Operator.getXButton();
+    }
+
+    public static boolean groundEject () {
+        return Operator.getYButton();
     }
 
     public static boolean getIntake () {
-        return Operator.getTriggerAxis(Hand.kLeft) > 0.15;
+        return Operator.getTriggerAxis(Hand.kRight) > 0.05;
     }
 
     public static boolean getOuttake () {
-        return Operator.getTriggerAxis(Hand.kRight) > 0.15;
-    }
-
-    public static boolean groundPickup () {
-        return Operator.getPOV() == 90;
+        // return Operator.getTriggerAxis(Hand.kRight) > 0.05;
+        return Operator.getBumper(Hand.kRight);
     }
 
     public static boolean LowLevel () {

@@ -15,17 +15,12 @@ public class RobotMap {
 
     // Arm / Intake
     public static final int Intake = 4;
-    public static final int ArmBase = 8;
+    public static final int ArmBase = 5;
     public static final int ForeArm = 6;
-    public static final int Switch = 7;
-    
-    // Climber
-    public static final int Climber1 = 5;
-    public static final int Climber2 = 9;
-    public static final int Clamp1 = 3;
-    public static final int Clamp2 = 4;
+    public static final int GroundH = 8;
 
-    // Compressor
-    public static final int Compressor = 0;
+    // Climber
+    public static final int Climber1 = 9;
+    public static final int Climber2 = 10;
 
 }

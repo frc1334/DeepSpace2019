@@ -22,19 +22,20 @@ public class ClimberSubsystem extends Subsystem {
   // Method to deploy the climber
   public void Deploy (boolean dep) {
     if (dep) {
-      Deploy.set(ControlMode.PercentOutput, 0.5);
+      Deploy.set(ControlMode.PercentOutput, 0.75);
     }
   }
 
   public void Stop () {
-    Deploy.set(ControlMode.PercentOutput, 0);
     Climb.set(ControlMode.PercentOutput, 0);
   }
 
-  // Method to "back-flip" onto the hab station
+  // Method to drive onto the hab station
   public void Climb (boolean climb) {
     if (climb) {
-      Climb.set(ControlMode.PercentOutput, 0.5);
+      Climb.set(ControlMode.PercentOutput, 0.65);
+    } else if (!climb) {
+      Climb.set(ControlMode.PercentOutput, -0.65);
     }
   }
 

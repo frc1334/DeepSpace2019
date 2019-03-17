@@ -1,6 +1,8 @@
 
 package frc.robot.commands;
 
+import java.util.function.ObjIntConsumer;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.Robot;
@@ -23,6 +25,8 @@ public class ArmCommand extends Command {
     // Update the current angle position
     Robot.ArmSubsystem.updateAngle();
 
+    Robot.ArmSubsystem.dAngle = Robot.ArmSubsystem.angle;
+
     // Check OI to see if the destination angle (setpoint) of the arm PID needs to be updated
 
     if (OI.positionArm0Deg()) {
@@ -39,22 +43,40 @@ public class ArmCommand extends Command {
       Robot.ArmSubsystem.setSetpoint(Robot.ArmSubsystem.dAngle);
     }
 
-    if (Math.abs(OI.getArmBasePercent()) >= 0.1) {
-      // Move the arm via variable control
-      Robot.ArmSubsystem.moveArmBasePercent(OI.getArmBasePercent());
-      // Update the current angle position
-      Robot.ArmSubsystem.updateAngle();
-      // Update the destination angle to where the operator wants it
-      Robot.ArmSubsystem.updateDAngle();
-      // Move the arm via PID to the setpoint (either maintain level or continue course if the value was not changed or move to new angle)
-      Robot.ArmSubsystem.setSetpoint(Robot.ArmSubsystem.angle);
-    }
+    // if (Math.abs(OI.getArmBasePercent()) > 0) {
+    //   // Move the arm via variable control
+    //   Robot.ArmSubsystem.moveArmBasePercent(OI.getArmBasePercent());
+    //   // Update the current angle position
+    //   Robot.ArmSubsystem.updateAngle();
+    //   // Update the destination angle to where the operator wants it
+    //   Robot.ArmSubsystem.updateDAngle();
+    //   // Move the arm via PID to the setpoint (either maintain level or continue course if the value was not changed or move to new angle)
+    //   Robot.ArmSubsystem.setSetpoint(Robot.ArmSubsystem.angle);
+    // }
+
+    Robot.ArmSubsystem.moveArmBasePercent(OI.getArmBasePercent());
 
     // Move the wrist via variable control
     Robot.ArmSubsystem.moveForeArmPercent(OI.getForeArmPercent());
 
+    if (OI.driveWristUpFixed()) {
+      Robot.ArmSubsystem.moveForeArm(true);
+    } else if (OI.driveWristDownFixed()) {
+      Robot.ArmSubsystem.moveForeArm(false);
+    } else {
+      Robot.ArmSubsystem.maintainWristLevel();
+    }
+
     // Use intake
     Robot.ArmSubsystem.intake(OI.getIntake(), OI.getOuttake());
+
+    if (OI.groundPickup()) {
+      Robot.ArmSubsystem.groundToggle(true);
+    } else if (OI.groundEject()) {
+      Robot.ArmSubsystem.groundToggle(false);
+    } else {
+      Robot.ArmSubsystem.stopGroundH();
+    }
 
   }
 

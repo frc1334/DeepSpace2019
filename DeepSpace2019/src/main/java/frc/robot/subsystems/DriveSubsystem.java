@@ -78,6 +78,11 @@ public class DriveSubsystem extends PIDSubsystem {
   
   }
 
+  public void initTalonFollower () {
+    Left2.set(ControlMode.Follower, RobotMap.Left1);
+    Right2.set(ControlMode.Follower, RobotMap.Right1);
+  }
+
   public void CompressorControl(){
 		//compressor.setClosedLoopControl(true);
 	}
@@ -163,8 +168,10 @@ public class DriveSubsystem extends PIDSubsystem {
       left *= 0.6;
       right *= 0.6;
     }
-		Left1.set(ControlMode.PercentOutput, left);
-		Right1.set(ControlMode.PercentOutput, -right);
+    Left1.set(ControlMode.PercentOutput, left * 0.8);
+    Left2.set(ControlMode.PercentOutput, -left * 0.8);
+    Right1.set(ControlMode.PercentOutput, -right * 0.8);
+    Right2.set(ControlMode.PercentOutput, right * 0.8);
   }
   
   // Basic Arcade Drive Method

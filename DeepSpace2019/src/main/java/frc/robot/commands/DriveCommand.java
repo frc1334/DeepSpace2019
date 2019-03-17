@@ -23,21 +23,22 @@ public class DriveCommand extends Command {
 
   protected void initialize() {
     Robot.DriveSubsystem.invertLeftTalons();
+    Robot.DriveSubsystem.initTalonFollower();
   }
 
   protected void execute() {
 
     // Climber code
     
-    Robot.ClimberSubsystem.Deploy(OI.climberDeploy());
-    Robot.ClimberSubsystem.Climb(OI.climb());
+    if (OI.climbDeploy()) {
+      Robot.ClimberSubsystem.Climb(true);
+    } else if (OI.unwind()) {
+      Robot.ClimberSubsystem.Climb(false);
+    } else {
+      Robot.ClimberSubsystem.Stop();
+    }
 
     // Drive Code
-
-    // Change the Current Limit on the Drivetrain's Talons if neccesary
-    if (OI.changeDriverCurrentLimit()) {
-      Robot.DriveSubsystem.changeCurrentLimit();
-    }
 
     // Drive based on the response of the Driver's speed and steer
     Robot.DriveSubsystem.ArcadeDrive(OI.getDriverSpeed(), OI.getDriverSteer());

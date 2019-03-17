@@ -25,8 +25,10 @@ public class ArmSubsystem extends PIDSubsystem {
     defaultPosition
   }
   
-  // Intake Talons
+  // Intake Talons for Cargo
   TalonSRX Intake = new TalonSRX(RobotMap.Intake);
+  // Ground Hatch Intake/Outtake Talon
+  TalonSRX GroundH = new TalonSRX(RobotMap.GroundH);
 
   // Arm Talons
 
@@ -39,9 +41,6 @@ public class ArmSubsystem extends PIDSubsystem {
   public double angle;
   // This double records the destination angle (setpoint)
   public double dAngle;
-
-  // This boolean is a toggle switch for the clamp direction (hold and release)
-  public boolean toggleClamp = false;
 
   public ArmSubsystem () {
     // Intert a subsystem name and PID values here
@@ -66,12 +65,25 @@ public class ArmSubsystem extends PIDSubsystem {
   public void intake (boolean in, boolean out) {
     if (in && !out) {
       // Set the 2 intake talons to rotate inwards (negative power at 50%)
-      Intake.set(ControlMode.PercentOutput, -0.5);
+      Intake.set(ControlMode.PercentOutput, -0.40);
     } else if (out && !in) {
-      Intake.set(ControlMode.PercentOutput, 0.30);
+      Intake.set(ControlMode.PercentOutput, 0.40);
     } else {
       Intake.set(ControlMode.PercentOutput, 0);
     }
+  }
+
+  // This method is used to toggle and activate the ground hatch pickup talon
+  public void groundToggle (boolean toggleGroundHatch) {
+    if (toggleGroundHatch) {
+      GroundH.set(ControlMode.PercentOutput, 0.40);
+    } else if (!toggleGroundHatch) {
+      GroundH.set(ControlMode.PercentOutput, -0.40);
+    }
+  }
+
+  public void stopGroundH () {
+    GroundH.set(ControlMode.PercentOutput, 0);
   }
 
   // This method moves the arm base talon (power also acts as direction, negative is counter clockwise and positive is clockwise)
@@ -94,22 +106,27 @@ public class ArmSubsystem extends PIDSubsystem {
   }
 
   public void moveArmBasePercent (double power) {
-    ArmBase.set(ControlMode.PercentOutput, power);
+    ArmBase.set(ControlMode.PercentOutput, (power * -0.75));
 
     // Update the current angle
     dAngle = ArmBase.getSelectedSensorPosition(0) * Constants.kArmEncoder;
   }
 
   public void moveForeArmPercent (double power) {
-    ForeArm.set(ControlMode.PercentOutput, power);
+    ForeArm.set(ControlMode.PercentOutput, (power * -0.4));
 
     // Update the current angle
     angle = ArmBase.getSelectedSensorPosition(0) * Constants.kArmEncoder;
   }
 
   // This method feeds a powerlevel of 0 into the arm (maintains level)
-  public void maintainLevel () {
+  public void maintainArmLevel () {
     ArmBase.set(ControlMode.PercentOutput, 0);
+  }
+
+  public void maintainWristLevel () {
+    // ArmBase.set(ControlMode.PercentOutput, 0);
+    ForeArm.set(ControlMode.PercentOutput, 0);
   }
 
   // This method moves the forearm of the arm (wrist)
@@ -140,22 +157,22 @@ public class ArmSubsystem extends PIDSubsystem {
 
   protected void usePIDOutput (double output) {
 
-    // Error term (destination angle - output, output is the current angle)
-    double error = dAngle - output;
+    // // Error term (destination angle - output, output is the current angle)
+    // double error = dAngle - output;
 
-    // If the arm needs to move counter clockwise (the error is negative) - current position is behind destination
-    if (Math.abs(error) > Constants.kToleranceArm && error < 0) {
-      System.out.println("Moving Counter clockwise");
-      moveArmBase(false);
-    } else if (Math.abs(error) > Constants.kToleranceArm && error > 0) {
-      // If the arm needs to move clockwise (the error is positive) - current position is in front of destination
-      moveArmBase(true);
-      System.out.println("Moving Clockwise");
-    } else if (Math.abs(error) <= Constants.kToleranceArm) {
-      // Otherwise, arm is in position (within a certain tolerance), maintain level
-      maintainLevel();
-      System.out.println("Within Range");
-    }
+    // // If the arm needs to move counter clockwise (the error is negative) - current position is behind destination
+    // if (Math.abs(error) > Constants.kToleranceArm && error < 0) {
+    //   System.out.println("Moving Counter clockwise");
+    //   moveArmBase(true);
+    // } else if (Math.abs(error) > Constants.kToleranceArm && error > 0) {
+    //   // If the arm needs to move clockwise (the error is positive) - current position is in front of destination
+    //   moveArmBase(false);
+    //   System.out.println("Moving Clockwise");
+    // } else if (Math.abs(error) <= Constants.kToleranceArm) {
+    //   // Otherwise, arm is in position (within a certain tolerance), maintain level
+    //   maintainArmLevel();
+    //   System.out.println("Within Range");
+    // }
 
   }
 

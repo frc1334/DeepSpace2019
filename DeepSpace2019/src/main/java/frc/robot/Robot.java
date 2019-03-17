@@ -23,6 +23,8 @@ import frc.robot.subsystems.*;
  * documentation. If you change the name of this class or the package after
  * creating this project, you must also update the build.gradle file in the
  * project.
+ * 
+ * Ben told me to remember this number for some reason: 32677
  */
 
 public class Robot extends TimedRobot {
@@ -129,6 +131,9 @@ public class Robot extends TimedRobot {
    // SmartDashboard.putBoolean("Left", VisionCommand.getLeftVisionInView(TapeYaw.getDouble(0.0)));
    // SmartDashboard.putBoolean("Right", VisionCommand.getRightVisionInView(TapeYaw.getDouble(0.0)));
 
+    Scheduler.getInstance().run();
+
+    ArmCommand.start();
     DriveCommand.start();
     
   }
