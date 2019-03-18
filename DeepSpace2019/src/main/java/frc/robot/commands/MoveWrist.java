@@ -25,6 +25,7 @@ public class MoveWrist extends Command {
 
   // Called just before this Command runs the first time
   protected void initialize() {
+    Robot.WristSubsystem.setSetpoint(dAngle);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -33,6 +34,9 @@ public class MoveWrist extends Command {
 
   // Make this return true when this Command no longer needs to run execute()
   protected boolean isFinished() {
+    if (Robot.ArmSubsystem.inRange(dAngle)) {
+      return true;
+    }
     return false;
   }
 
