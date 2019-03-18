@@ -28,6 +28,7 @@ public class Constants {
 
     // Tolerance of the Arm PID (degrees)
     public static double kToleranceArm = 1.5;
+    public static double kToleranceWrist = 1.5;
 
     // Gyro Constants
     public static double kGyroRotationRate = 0.5;
@@ -47,16 +48,28 @@ public class Constants {
     public static double kAD = 0.0;  //0.3
     public static double kAF = 0.0;  //0.1
 
-    // Vision Constants
+    // Wrist PID Constants
+    public static double kWP = 0.03;
+    public static double kWI = 0.0;
+    public static double kWD = 0.0;
+    public static double kWF = 0.0;
 
-    // Field view (FOV of camera)
-    public static final double kVisionFieldViewWidthPx = 640;
-    public static final double kVisionFieldViewHeightPx = 480;
+    // Arm Positions
+    public static double aDEFAULT = 0.0;
+    public static double aCARGO = 0.0;
+    public static double aLEV1ROCKET = 0.0;
+    public static double aINTAKE = 0.0;
+    public static double aCLIMB2 = 0.0;
+    public static double aCLIMB3 = 0.0;
+    public static double aPICKUP = 0.0;
 
-    // Encoder positions (ticks) of each stage (256 tick encoder)
-    public static final int kAEGH = 0;
-    public static final int kAEL1 = -64;
-    public static final int kAEL2 = -80;
-    public static final int kAEDP = -140;
+    // Wrist Positions
+    public static double wDEFAULT = 0.0;
+    public static double wCARGO = 0.0;
+    public static double wLEV1ROCKET = 0.0;
+    public static double wINTAKE = 0.0;
+    public static double wCLIMB2 = 0.0;
+    public static double wCLIMB3 = 0.0;
+    public static double wPICKUP = 0.0;
 
 }

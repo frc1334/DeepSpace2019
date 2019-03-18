@@ -42,31 +42,7 @@ public class ArmCommand extends Command {
       // Move the arm via PID to the setpoint (either maintain level or continue course if the value was not changed or move to new angle)
       Robot.ArmSubsystem.setSetpoint(Robot.ArmSubsystem.dAngle);
     }
-
-    // if (Math.abs(OI.getArmBasePercent()) > 0) {
-    //   // Move the arm via variable control
-    //   Robot.ArmSubsystem.moveArmBasePercent(OI.getArmBasePercent());
-    //   // Update the current angle position
-    //   Robot.ArmSubsystem.updateAngle();
-    //   // Update the destination angle to where the operator wants it
-    //   Robot.ArmSubsystem.updateDAngle();
-    //   // Move the arm via PID to the setpoint (either maintain level or continue course if the value was not changed or move to new angle)
-    //   Robot.ArmSubsystem.setSetpoint(Robot.ArmSubsystem.angle);
-    // }
-
-    Robot.ArmSubsystem.moveArmBasePercent(OI.getArmBasePercent());
-
-    // Move the wrist via variable control
-    Robot.ArmSubsystem.moveForeArmPercent(OI.getForeArmPercent());
-
-    if (OI.driveWristUpFixed()) {
-      Robot.ArmSubsystem.moveForeArm(true);
-    } else if (OI.driveWristDownFixed()) {
-      Robot.ArmSubsystem.moveForeArm(false);
-    } else {
-      Robot.ArmSubsystem.maintainWristLevel();
-    }
-
+    
     // Use intake
     Robot.ArmSubsystem.intake(OI.getIntake(), OI.getOuttake());
 

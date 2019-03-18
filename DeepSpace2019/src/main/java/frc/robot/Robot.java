@@ -36,14 +36,12 @@ public class Robot extends TimedRobot {
 
   public static DriveSubsystem DriveSubsystem;
   public static ArmSubsystem ArmSubsystem;
+  public static WristSubsystem WristSubsystem;
   public static ClimberSubsystem ClimberSubsystem;
- // public static ArmSubsystem2 ArmSubsystem2;
 
   public static DriveCommand DriveCommand;
   public static GyroCommand GyroCommand;
   public static ArmCommand ArmCommand;
-  //public static ArmCommand2 ArmCommand2;
-  public static VisionCommand VisionCommand;
 
   public static NetworkTable Pitable;
 

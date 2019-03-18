@@ -16,11 +16,15 @@ public class RobotMap {
     // Arm / Intake
     public static final int Intake = 4;
     public static final int ArmBase = 5;
-    public static final int ForeArm = 6;
+    public static final int Wrist = 6;
     public static final int GroundH = 8;
 
     // Climber
     public static final int Climber1 = 9;
     public static final int Climber2 = 10;
+
+    // Sensors (Plugged directly into roborio)
+    public static final int aPot = 0;
+    public static final int wPot = 1;
 
 }

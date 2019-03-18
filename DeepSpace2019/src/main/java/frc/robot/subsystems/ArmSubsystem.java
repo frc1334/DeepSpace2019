@@ -18,11 +18,14 @@ import frc.robot.sensors.LimitSwitch;
 
 public class ArmSubsystem extends PIDSubsystem {
 
-  public enum Level {
-    groundH,
-    Lev1,
-    Lev2,
-    defaultPosition
+  public enum ArmPos {
+    DEFAULT,
+    CARGO,
+    LEV1ROCKET,
+    INTAKE,
+    CLIMB2,
+    CLIMB3,
+    PICKUP
   }
   
   // Intake Talons for Cargo
@@ -34,8 +37,6 @@ public class ArmSubsystem extends PIDSubsystem {
 
   // Arm base Talon
   TalonSRX ArmBase = new TalonSRX(RobotMap.ArmBase);
-  // Fore arm Talon
-  TalonSRX ForeArm = new TalonSRX(RobotMap.ForeArm);
 
   // This double records the angle the arm is currently at
   public double angle;
@@ -45,8 +46,8 @@ public class ArmSubsystem extends PIDSubsystem {
   public ArmSubsystem () {
     // Intert a subsystem name and PID values here
     super("ArmSubsystem", Constants.kAP, Constants.kAI, Constants.kAD);
-    super.getPIDController().setInputRange(0.0, 135.0);
-    super.getPIDController().setOutputRange(0.0, 135.0);
+    super.getPIDController().setInputRange(0.0, 360.0);
+    super.getPIDController().setOutputRange(0.0, 360.0);
     super.getPIDController().setAbsoluteTolerance(Constants.kToleranceArm);
     super.getPIDController().setContinuous(false);
   }
@@ -112,32 +113,6 @@ public class ArmSubsystem extends PIDSubsystem {
     dAngle = ArmBase.getSelectedSensorPosition(0) * Constants.kArmEncoder;
   }
 
-  public void moveForeArmPercent (double power) {
-    ForeArm.set(ControlMode.PercentOutput, (power * -0.4));
-
-    // Update the current angle
-    angle = ArmBase.getSelectedSensorPosition(0) * Constants.kArmEncoder;
-  }
-
-  // This method feeds a powerlevel of 0 into the arm (maintains level)
-  public void maintainArmLevel () {
-    ArmBase.set(ControlMode.PercentOutput, 0);
-  }
-
-  public void maintainWristLevel () {
-    // ArmBase.set(ControlMode.PercentOutput, 0);
-    ForeArm.set(ControlMode.PercentOutput, 0);
-  }
-
-  // This method moves the forearm of the arm (wrist)
-  public void moveForeArm (boolean clockwise) {
-    if (clockwise) {
-      ForeArm.set(ControlMode.PercentOutput, 0.5);
-    } else if (!clockwise) {
-      ForeArm.set(ControlMode.PercentOutput, -0.5);
-    }
-  }
-
   // This method sets the destination angle/set point
   public void setDestAngle (double dAngle) {
     this.dAngle = dAngle;
@@ -157,45 +132,19 @@ public class ArmSubsystem extends PIDSubsystem {
 
   protected void usePIDOutput (double output) {
 
-    // // Error term (destination angle - output, output is the current angle)
-    // double error = dAngle - output;
+    // Error term (destination angle - output, output is the current angle)
+    double error = dAngle - output;
 
-    // // If the arm needs to move counter clockwise (the error is negative) - current position is behind destination
-    // if (Math.abs(error) > Constants.kToleranceArm && error < 0) {
-    //   System.out.println("Moving Counter clockwise");
-    //   moveArmBase(true);
-    // } else if (Math.abs(error) > Constants.kToleranceArm && error > 0) {
-    //   // If the arm needs to move clockwise (the error is positive) - current position is in front of destination
-    //   moveArmBase(false);
-    //   System.out.println("Moving Clockwise");
-    // } else if (Math.abs(error) <= Constants.kToleranceArm) {
-    //   // Otherwise, arm is in position (within a certain tolerance), maintain level
-    //   maintainArmLevel();
-    //   System.out.println("Within Range");
-    // }
-
-  }
-
-  public void setPosition (Level target) {
-    // Move the talon to the matching encoder position based on each enum target case
-    switch (target) {
-      case groundH:
-        setMotionMagicPosition(Constants.kAEGH);
-        break;
-      case Lev1:
-        setMotionMagicPosition(Constants.kAEL1);
-        break;
-      case Lev2:
-        setMotionMagicPosition(Constants.kAEL2);
-        break;
-      case defaultPosition:
-        setMotionMagicPosition(Constants.kAEDP);
-        break;
+    // If the arm needs to move counter clockwise (the error is negative) - current position is behind destination
+    if (Math.abs(error) > Constants.kToleranceArm && error < 0) {
+      System.out.println("Moving Counter clockwise");
+      moveArmBase(true);
+    } else if (Math.abs(error) > Constants.kToleranceArm && error > 0) {
+      // If the arm needs to move clockwise (the error is positive) - current position is in front of destination
+      moveArmBase(false);
+      System.out.println("Moving Clockwise");
     }
-  }
 
-  public void setMotionMagicPosition(int encoderValue){
-    ArmBase.set(ControlMode.MotionMagic, encoderValue);
   }
 
   public double getCurrentAngle () {
