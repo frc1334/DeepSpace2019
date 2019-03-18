@@ -1,6 +1,7 @@
 
 package frc.robot.commands;
 
+import frc.robot.Robot;
 import frc.robot.subsystems.ArmSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -11,10 +12,12 @@ public class MoveArm extends Command {
 
   public MoveArm(double dAngle) {
     this.dAngle = dAngle;
+    requires(Robot.ArmSubsystem);
   }
 
   // Called just before this Command runs the first time
   protected void initialize() {
+    
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -23,6 +26,9 @@ public class MoveArm extends Command {
 
   // Make this return true when this Command no longer needs to run execute()
   protected boolean isFinished() {
+    if (Robot.ArmSubsystem.inRange(dAngle)) {
+      return true;
+    }
     return false;
   }
 

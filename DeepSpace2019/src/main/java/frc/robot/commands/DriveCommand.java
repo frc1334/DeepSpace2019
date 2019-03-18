@@ -43,6 +43,19 @@ public class DriveCommand extends Command {
     // Drive based on the response of the Driver's speed and steer
     Robot.DriveSubsystem.ArcadeDrive(OI.getDriverSpeed(), OI.getDriverSteer());
 
+    // Intake Code
+    
+    // Use intake
+    Robot.ArmSubsystem.intake(OI.getIntake(), OI.getOuttake());
+
+    if (OI.groundPickup()) {
+      Robot.ArmSubsystem.groundToggle(true);
+    } else if (OI.groundEject()) {
+      Robot.ArmSubsystem.groundToggle(false);
+    } else {
+      Robot.ArmSubsystem.stopGroundH();
+    }
+
   }
 
   protected boolean isFinished() {

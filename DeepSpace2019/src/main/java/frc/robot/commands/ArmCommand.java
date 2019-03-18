@@ -42,17 +42,6 @@ public class ArmCommand extends Command {
       // Move the arm via PID to the setpoint (either maintain level or continue course if the value was not changed or move to new angle)
       Robot.ArmSubsystem.setSetpoint(Robot.ArmSubsystem.dAngle);
     }
-    
-    // Use intake
-    Robot.ArmSubsystem.intake(OI.getIntake(), OI.getOuttake());
-
-    if (OI.groundPickup()) {
-      Robot.ArmSubsystem.groundToggle(true);
-    } else if (OI.groundEject()) {
-      Robot.ArmSubsystem.groundToggle(false);
-    } else {
-      Robot.ArmSubsystem.stopGroundH();
-    }
 
   }
 

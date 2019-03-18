@@ -16,8 +16,8 @@ public class WristSubsystem extends PIDSubsystem {
 
   public enum WristPos {
     DEFAULT,
-    CARGO,
-    LEV1ROCKET,
+    LOWGOAL,
+    MEDGOAL,
     INTAKE,
     CLIMB2,
     CLIMB3,
@@ -91,6 +91,17 @@ public class WristSubsystem extends PIDSubsystem {
       System.out.println("Moving Clockwise");
     }
 
+  }
+
+  public double getCurrentAngle () {
+    return angle;
+  }
+
+  public boolean inRange (double setpoint) {
+    if (Math.abs(setpoint - angle) <= Constants.kToleranceWrist) {
+      return true;
+    }
+    return false;
   }
 
 }

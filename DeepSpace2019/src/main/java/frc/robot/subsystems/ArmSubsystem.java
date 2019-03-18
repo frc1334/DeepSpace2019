@@ -22,8 +22,8 @@ public class ArmSubsystem extends PIDSubsystem {
 
   public enum ArmPos {
     DEFAULT,
-    CARGO,
-    LEV1ROCKET,
+    LOWGOAL,
+    MEDGOAL,
     INTAKE,
     CLIMB2,
     CLIMB3,
@@ -153,6 +153,13 @@ public class ArmSubsystem extends PIDSubsystem {
 
   public double getCurrentAngle () {
     return angle;
+  }
+
+  public boolean inRange (double setpoint) {
+    if (Math.abs(setpoint - angle) <= Constants.kToleranceArm) {
+      return true;
+    }
+    return false;
   }
 
 }

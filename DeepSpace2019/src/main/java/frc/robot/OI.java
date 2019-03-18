@@ -27,6 +27,9 @@ public class OI {
 
     public OI () {
         aButton.whenPressed(new DefaultPosition());
+        bButton.whenPressed(new GroundIntake());
+        xButton.whenPressed(new LowGoal());
+        yButton.whenPressed(new MedGoal());
     }
 
     // DRIVER
