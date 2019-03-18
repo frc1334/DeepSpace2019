@@ -14,6 +14,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableEntry;
 
+import frc.robot.OI;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -34,9 +35,12 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
+  public static OI OI;
+
   public static DriveSubsystem DriveSubsystem;
   public static ArmSubsystem ArmSubsystem;
   public static WristSubsystem WristSubsystem;
+
   public static ClimberSubsystem ClimberSubsystem;
 
   public static DriveCommand DriveCommand;
@@ -54,6 +58,9 @@ public class Robot extends TimedRobot {
    */
 
   public void robotInit() {
+
+    // Initialize the Operator Interface
+    OI = new OI();
 
     // Initialize the subsystems
     DriveSubsystem = new DriveSubsystem();
