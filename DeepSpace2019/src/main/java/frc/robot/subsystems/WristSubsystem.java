@@ -1,9 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
 
@@ -42,7 +36,7 @@ public class WristSubsystem extends PIDSubsystem {
   public double dAngle;
 
   public WristSubsystem() {
-    super("Wrist", Constants.kWP, Constants.kWI, Constants.kWD);
+    super("WristSubsystem", Constants.kWP, Constants.kWI, Constants.kWD);
     super.getPIDController().setInputRange(0.0, 360.0);
     super.getPIDController().setOutputRange(0.0, 360.0);
     super.getPIDController().setAbsoluteTolerance(Constants.kToleranceWrist);
@@ -50,7 +44,7 @@ public class WristSubsystem extends PIDSubsystem {
   }
 
   public void initDefaultCommand() {
-    setDefaultCommand(new MoveArm());
+    
   }
 
   public void updateAngle () {
@@ -98,4 +92,5 @@ public class WristSubsystem extends PIDSubsystem {
     }
 
   }
+
 }

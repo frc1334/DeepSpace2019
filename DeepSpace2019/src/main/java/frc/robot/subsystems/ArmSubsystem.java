@@ -2,6 +2,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.interfaces.Potentiometer;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -43,6 +45,8 @@ public class ArmSubsystem extends PIDSubsystem {
   // This double records the destination angle (setpoint)
   public double dAngle;
 
+  Potentiometer aPot = new AnalogPotentiometer(0);
+
   public ArmSubsystem () {
     // Intert a subsystem name and PID values here
     super("ArmSubsystem", Constants.kAP, Constants.kAI, Constants.kAD);
@@ -54,12 +58,12 @@ public class ArmSubsystem extends PIDSubsystem {
 
   // This ethod updates the current angle
   public void updateAngle () {
-    angle = ArmBase.getSelectedSensorPosition(0) * Constants.kArmEncoder;
+    angle = aPot.get();
   }
 
   // This method updates the destination angle (for manual control and staying in place)
   public void updateDAngle () {
-    dAngle = ArmBase.getSelectedSensorPosition(0) * Constants.kArmEncoder;
+    dAngle = aPot.get();
   }
 
   // This method takes in or shoots out a piece of cargo, depending on the direction of Talon spin given
@@ -99,10 +103,10 @@ public class ArmSubsystem extends PIDSubsystem {
     }
 
     // Update the current angle
-    angle = ArmBase.getSelectedSensorPosition(0) * Constants.kArmEncoder;
+    angle =  aPot.get();
 
     // Update the destination angle (setpoint)
-    dAngle = ArmBase.getSelectedSensorPosition(0) * Constants.kArmEncoder;
+    dAngle =  aPot.get();
 
   }
 
@@ -110,7 +114,7 @@ public class ArmSubsystem extends PIDSubsystem {
     ArmBase.set(ControlMode.PercentOutput, (power * -0.75));
 
     // Update the current angle
-    dAngle = ArmBase.getSelectedSensorPosition(0) * Constants.kArmEncoder;
+    dAngle =  aPot.get();
   }
 
   // This method sets the destination angle/set point
@@ -127,7 +131,7 @@ public class ArmSubsystem extends PIDSubsystem {
 
   protected double returnPIDInput () {
     // Return the current angle
-    return ArmBase.getSelectedSensorPosition(0) * Constants.kArmEncoder;
+    return aPot.get();
   }
 
   protected void usePIDOutput (double output) {

@@ -14,18 +14,17 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class MoveWrist extends Command {
 
-  double currAngle;
-  double setpoint;
+  double dAngle;
 
   WristSubsystem.WristPos position;
 
-  public MoveWrist() {
+  public MoveWrist(double dAngle) {
+    this.dAngle = dAngle;
     requires(Robot.WristSubsystem);
   }
 
   // Called just before this Command runs the first time
   protected void initialize() {
-    
   }
 
   // Called repeatedly when this Command is scheduled to run

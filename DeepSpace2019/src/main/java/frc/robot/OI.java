@@ -1,6 +1,8 @@
 
 package frc.robot;
 
+import frc.robot.commands.positions.*;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.HIDType;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
@@ -13,9 +15,19 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class OI {
 
+    // Driver Controls
     public static final XboxController Driver = new XboxController(0);
-    
+    // Operator controls
     public static final XboxController Operator = new XboxController(1);
+    
+    Button aButton = new JoystickButton(Operator, 0);
+    Button bButton = new JoystickButton(Operator, 1);
+    Button xButton = new JoystickButton(Operator, 2);
+    Button yButton = new JoystickButton(Operator, 3);
+
+    public OI () {
+        aButton.whenPressed(new DefaultPosition());
+    }
 
     // DRIVER
 
