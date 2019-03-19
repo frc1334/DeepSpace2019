@@ -91,6 +91,9 @@ public class WristSubsystem extends PIDSubsystem {
       System.out.println("Moving Clockwise");
     }
 
+    // Update the angle of the Arm
+    updateAngle();
+
   }
 
   public double getCurrentAngle () {

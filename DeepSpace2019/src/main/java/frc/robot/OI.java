@@ -93,16 +93,7 @@ public class OI {
     }
 
     public static boolean getOuttake () {
-        // return Operator.getTriggerAxis(Hand.kRight) > 0.05;
-        return Operator.getBumper(Hand.kRight);
-    }
-
-    public static boolean LowLevel () {
-        return Operator.getPOV() == 0;
-    }
-
-    public static boolean positionArm135Deg () {
-        return Operator.getPOV() == 270;
+        return Operator.getTriggerAxis(Hand.kRight) > 0.05;
     }
 
 }
