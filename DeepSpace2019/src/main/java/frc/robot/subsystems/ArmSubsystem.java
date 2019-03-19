@@ -24,6 +24,7 @@ public class ArmSubsystem extends PIDSubsystem {
     DEFAULT,
     LOWGOAL,
     MEDGOAL,
+    CARGO,
     INTAKE,
     CLIMB2,
     CLIMB3,

@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class LowGoal extends CommandGroup {
   
   public LowGoal() {
-    addSequential(new MoveArm(90));
-    addSequential(new MoveWrist(100));
+    addSequential(new MoveArm(22));
+    addSequential(new MoveWrist(158));
   }
 
 }

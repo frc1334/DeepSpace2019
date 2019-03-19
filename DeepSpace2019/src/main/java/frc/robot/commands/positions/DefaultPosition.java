@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class DefaultPosition extends CommandGroup {
   
   public DefaultPosition() {
-    addSequential(new MoveArm(120));
-    addSequential(new MoveWrist(90));
+    addSequential(new MoveArm(110));
+    addSequential(new MoveWrist(70));
   }
 }

@@ -45,7 +45,6 @@ public class Robot extends TimedRobot {
 
   public static DriveCommand DriveCommand;
   public static GyroCommand GyroCommand;
-  public static ArmCommand ArmCommand;
 
   public static NetworkTable Pitable;
 
@@ -66,11 +65,8 @@ public class Robot extends TimedRobot {
     DriveSubsystem = new DriveSubsystem();
     ClimberSubsystem = new ClimberSubsystem();
     ArmSubsystem = new ArmSubsystem();
-   // ArmSubsystem2 = new ArmSubsystem2();
 
     DriveCommand = new DriveCommand();
-    ArmCommand = new ArmCommand();
-    //ArmCommand2 = new ArmCommand2();
 
     // Vision
 
@@ -138,7 +134,6 @@ public class Robot extends TimedRobot {
 
     Scheduler.getInstance().run();
 
-    ArmCommand.start();
     DriveCommand.start();
     
   }
@@ -159,7 +154,6 @@ public class Robot extends TimedRobot {
     Scheduler.getInstance().run();
 
     DriveCommand.start();
-    ArmCommand.start();
     
   }
 

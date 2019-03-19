@@ -64,14 +64,6 @@ public class OI {
         return (Operator.getRawAxis(5));
     }
 
-    public static boolean positionArm0Deg () {
-        return false;
-    }
-
-    public static boolean positionArm90Deg () {
-        return false;
-    }
-
     public static boolean driveWristUpFixed () {
         return Operator.getAButton();
     }

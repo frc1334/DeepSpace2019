@@ -18,6 +18,7 @@ public class WristSubsystem extends PIDSubsystem {
     DEFAULT,
     LOWGOAL,
     MEDGOAL,
+    CARGO,
     INTAKE,
     CLIMB2,
     CLIMB3,
