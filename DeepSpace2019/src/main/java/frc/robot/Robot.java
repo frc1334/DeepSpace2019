@@ -44,7 +44,6 @@ public class Robot extends TimedRobot {
   public static ClimberSubsystem ClimberSubsystem;
 
   public static DriveCommand DriveCommand;
-  public static GyroCommand GyroCommand;
 
   public static NetworkTable Pitable;
 
