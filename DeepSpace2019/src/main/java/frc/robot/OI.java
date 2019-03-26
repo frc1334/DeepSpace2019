@@ -66,10 +66,6 @@ public class OI {
 
     public static boolean driveWristUpFixed () {
         return Operator.getAButton();
-    }
-
-    public static boolean driveWristDownFixed () {
-        return Operator.getBButton(); 
     }  
 
     public static boolean groundPickup () {
@@ -86,6 +82,10 @@ public class OI {
 
     public static boolean getOuttake () {
         return Operator.getTriggerAxis(Hand.kRight) > 0.05;
+    }
+
+    public static boolean toggleHatchOp () {
+        return Operator.getBButton();
     }
 
 }
