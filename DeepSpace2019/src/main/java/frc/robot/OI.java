@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj.GenericHID.HIDType;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.Command;
+
+import frc.robot.commands.MoveArm;
 
 /*
  * Operator Interface - Maps controller actions to the actions/capabilities of the robot
@@ -20,14 +23,15 @@ public class OI {
     // Operator controls
     public static final XboxController Operator = new XboxController(1);
     
-    Button aButton = new JoystickButton(Operator, 0);
-    Button bButton = new JoystickButton(Operator, 1);
-    Button xButton = new JoystickButton(Operator, 2);
-    Button yButton = new JoystickButton(Operator, 3);
+    public static JoystickButton aButton = new JoystickButton(Operator, 1);
+    public static JoystickButton bButton = new JoystickButton(Operator, 2);
+    public static JoystickButton xButton = new JoystickButton(Operator, 3);
+    public static JoystickButton yButton = new JoystickButton(Operator, 4);
 
     public OI () {
         aButton.whenPressed(new DefaultPosition());
-        bButton.whenPressed(new GroundIntake());
+        //bButton.whenPressed(new GroundIntake());
+        bButton.whenPressed(new MoveArm(30));
         xButton.whenPressed(new LowGoal());
         yButton.whenPressed(new MedGoal());
     }
@@ -64,28 +68,20 @@ public class OI {
         return (Operator.getRawAxis(5));
     }
 
-    public static boolean driveWristUpFixed () {
-        return Operator.getAButton();
-    }  
-
-    public static boolean groundPickup () {
-        return Operator.getXButton();
-    }
-
-    public static boolean groundEject () {
-        return Operator.getYButton();
-    }
-
     public static boolean getIntake () {
-        return Operator.getTriggerAxis(Hand.kRight) > 0.05;
+        return Operator.getTriggerAxis(Hand.kLeft) > 0.05;
     }
 
     public static boolean getOuttake () {
         return Operator.getTriggerAxis(Hand.kRight) > 0.05;
     }
 
-    public static boolean toggleHatchOp () {
-        return Operator.getBButton();
+    public static boolean activateHatchOp () {
+        return Operator.getBumper(Hand.kLeft);
+    }
+
+    public static boolean releaseHatchOp () {
+        return Operator.getBumper(Hand.kRight);
     }
 
 }

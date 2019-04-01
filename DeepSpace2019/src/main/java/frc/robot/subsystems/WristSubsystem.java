@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.AnalogPotentiometer;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 public class WristSubsystem extends PIDSubsystem {
 
@@ -45,12 +46,20 @@ public class WristSubsystem extends PIDSubsystem {
   }
 
   public void initDefaultCommand() {
-    
+    Wrist.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, 0);
+
+    Wrist.config_kP(0, Constants.kWP);
+    Wrist.config_kI(0, Constants.kWI);
+    Wrist.config_kD(0, Constants.kWD);
+    Wrist.config_kF(0, Constants.kWF);
+
+    Wrist.configPeakOutputForward(1);
+    Wrist.configPeakOutputReverse(-1);
   }
 
   public void updateAngle () {
     // Update the current angle
-    angle = wPot.get();
+    angle = Wrist.getSelectedSensorPosition(0);
   }
 
   public void setDAngle (double nDAngle) {
@@ -74,8 +83,14 @@ public class WristSubsystem extends PIDSubsystem {
   }
 
   protected double returnPIDInput() {
+    updateAngle();
+
     return wPot.get();
   }
+
+  public void setPIDAngle (double setpoint) {
+    Wrist.set(ControlMode.Position, setpoint);
+  } 
 
   protected void usePIDOutput(double output) {
 
@@ -98,6 +113,7 @@ public class WristSubsystem extends PIDSubsystem {
   }
 
   public double getCurrentAngle () {
+    updateAngle();
     return angle;
   }
 

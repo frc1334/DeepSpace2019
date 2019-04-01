@@ -28,6 +28,6 @@ public class RobotMap {
     public static final int wPot = 1;
 
     // Hatch
-    public static final int Hatch = 1;
+    public static final int Hatch = 0;
 
 }

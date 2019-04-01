@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class GroundIntake extends CommandGroup {
  
   public GroundIntake() {
-    addSequential(new MoveArm(30));
-    addSequential(new MoveWrist(135));
+    addSequential(new MoveArm(90));
+    //addSequential(new MoveWrist(135));
   }
 
 }

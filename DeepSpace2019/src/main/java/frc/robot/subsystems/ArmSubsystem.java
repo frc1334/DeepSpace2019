@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 import frc.robot.RobotMap;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.sensors.LimitSwitch;
 
 /**
@@ -46,7 +47,7 @@ public class ArmSubsystem extends PIDSubsystem {
   // This double records the destination angle (setpoint)
   public double dAngle;
 
-  Potentiometer aPot = new AnalogPotentiometer(0);
+  Potentiometer aPot = new AnalogPotentiometer(RobotMap.aPot, 360, 0);
 
   public ArmSubsystem () {
     // Intert a subsystem name and PID values here
@@ -57,9 +58,22 @@ public class ArmSubsystem extends PIDSubsystem {
     super.getPIDController().setContinuous(false);
   }
 
+  public void initDefaultCommand () {
+    ArmBase.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, 0);
+
+    ArmBase.config_kP(0, Constants.kAP);
+    ArmBase.config_kI(0, Constants.kAI);
+    ArmBase.config_kD(0, Constants.kAD);
+    ArmBase.config_kF(0, Constants.kAF);
+
+    ArmBase.configPeakOutputForward(1);
+    ArmBase.configPeakOutputReverse(-1);
+  }
+
   // This ethod updates the current angle
   public void updateAngle () {
-    angle = aPot.get();
+    angle = ArmBase.getSelectedSensorPosition(0);
+    // angle = aPot.get();
   }
 
   // This method updates the destination angle (for manual control and staying in place)
@@ -69,22 +83,13 @@ public class ArmSubsystem extends PIDSubsystem {
 
   // This method takes in or shoots out a piece of cargo, depending on the direction of Talon spin given
   public void intake (boolean in, boolean out) {
-    if (in && !out) {
+    if (in) {
       // Set the 2 intake talons to rotate inwards (negative power at 50%)
-      Intake.set(ControlMode.PercentOutput, -0.40);
-    } else if (out && !in) {
-      Intake.set(ControlMode.PercentOutput, 0.40);
+      Intake.set(ControlMode.PercentOutput, -0.4);
+    } else if (out) {
+      Intake.set(ControlMode.PercentOutput, 0.55);
     } else {
       Intake.set(ControlMode.PercentOutput, 0);
-    }
-  }
-
-  // This method is used to toggle and activate the ground hatch pickup talon
-  public void groundToggle (boolean toggleGroundHatch) {
-    if (toggleGroundHatch) {
-      GroundH.set(ControlMode.PercentOutput, 0.40);
-    } else if (!toggleGroundHatch) {
-      GroundH.set(ControlMode.PercentOutput, -0.40);
     }
   }
 
@@ -123,39 +128,42 @@ public class ArmSubsystem extends PIDSubsystem {
     this.dAngle = dAngle;
   }
 
-  public void initDefaultCommand () {
-    ArmBase.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-    ArmBase.setSelectedSensorPosition(0);
-    ArmBase.configMotionAcceleration(25);
-    ArmBase.configMotionCruiseVelocity(10);
-  }
-
   protected double returnPIDInput () {
+    // Update the current angle
+    updateAngle();
     // Return the current angle
     return aPot.get();
   }
 
-  protected void usePIDOutput (double output) {
-
+  public void usePIDOutputManual (double setpoint) {
     // Error term (destination angle - output, output is the current angle)
-    double error = dAngle - output;
-
+    double error = setpoint - angle;
+    System.out.println("In the method");
     // If the arm needs to move counter clockwise (the error is negative) - current position is behind destination
     if (Math.abs(error) > Constants.kToleranceArm && error < 0) {
       System.out.println("Moving Counter clockwise");
-      moveArmBase(true);
+      moveArmBase(false);
     } else if (Math.abs(error) > Constants.kToleranceArm && error > 0) {
       // If the arm needs to move clockwise (the error is positive) - current position is in front of destination
-      moveArmBase(false);
+      moveArmBase(true);
       System.out.println("Moving Clockwise");
     }
+  } 
 
+  protected void usePIDOutput (double output) {
     // Update the angle of the Arm
     updateAngle();
+    ArmBase.set(ControlMode.Position, dAngle);
+  }
 
+  public void setPIDAngle (double setpoint) {
+    ArmBase.set(ControlMode.Position, setpoint);
   }
 
   public double getCurrentAngle () {
+    // Update the angle of the Arm
+    updateAngle();
+
     return angle;
   }
 

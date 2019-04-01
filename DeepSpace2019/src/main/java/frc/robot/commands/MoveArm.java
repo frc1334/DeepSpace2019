@@ -11,8 +11,9 @@ public class MoveArm extends Command {
   double dAngle;
 
   public MoveArm(double dAngle) {
-    this.dAngle = dAngle;
     requires(Robot.ArmSubsystem);
+
+    this.dAngle = dAngle;
   }
 
   // Called just before this Command runs the first time
@@ -21,7 +22,8 @@ public class MoveArm extends Command {
 
   // Called repeatedly when this Command is scheduled to run
   protected void execute() {
-    Robot.ArmSubsystem.setSetpoint(dAngle);
+    System.out.println("RUNNING ARM PID");
+    Robot.ArmSubsystem.setPIDAngle(dAngle);
   }
 
   // Make this return true when this Command no longer needs to run execute()

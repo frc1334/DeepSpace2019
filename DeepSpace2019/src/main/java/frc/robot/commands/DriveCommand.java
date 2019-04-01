@@ -18,6 +18,7 @@ public class DriveCommand extends Command {
   
   public DriveCommand() {
     requires(Robot.DriveSubsystem);
+    requires(Robot.ArmSubsystem);
     requires(Robot.ClimberSubsystem);
   }
 
@@ -48,13 +49,8 @@ public class DriveCommand extends Command {
     // Use intake
     Robot.ArmSubsystem.intake(OI.getIntake(), OI.getOuttake());
 
-    if (OI.groundPickup()) {
-      Robot.ArmSubsystem.groundToggle(true);
-    } else if (OI.groundEject()) {
-      Robot.ArmSubsystem.groundToggle(false);
-    } else {
-      Robot.ArmSubsystem.stopGroundH();
-    }
+    // Use hatch intake
+    Robot.DriveSubsystem.toggleHatchMech(OI.activateHatchOp(), OI.releaseHatchOp());
 
   }
 

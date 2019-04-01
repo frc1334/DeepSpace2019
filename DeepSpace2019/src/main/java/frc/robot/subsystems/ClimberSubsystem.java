@@ -28,14 +28,17 @@ public class ClimberSubsystem extends Subsystem {
 
   public void Stop () {
     Climb.set(ControlMode.PercentOutput, 0);
+    Deploy.set(ControlMode.PercentOutput, 0);
   }
 
   // Method to drive onto the hab station
   public void Climb (boolean climb) {
     if (climb) {
       Climb.set(ControlMode.PercentOutput, 0.65);
+      Deploy.set(ControlMode.PercentOutput, -0.65);
     } else if (!climb) {
       Climb.set(ControlMode.PercentOutput, -0.65);
+      Deploy.set(ControlMode.PercentOutput, 0.65);
     }
   }
 

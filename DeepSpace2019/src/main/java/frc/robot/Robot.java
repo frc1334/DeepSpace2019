@@ -35,13 +35,12 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-  public static OI OI;
+  public static DriveSubsystem DriveSubsystem = new DriveSubsystem();
+  public static ArmSubsystem ArmSubsystem = new ArmSubsystem();
+  public static WristSubsystem WristSubsystem = new WristSubsystem();
+  public static ClimberSubsystem ClimberSubsystem = new ClimberSubsystem();
 
-  public static DriveSubsystem DriveSubsystem;
-  public static ArmSubsystem ArmSubsystem;
-  public static WristSubsystem WristSubsystem;
-
-  public static ClimberSubsystem ClimberSubsystem;
+  public static OI OI = new OI();
 
   public static DriveCommand DriveCommand;
 
@@ -56,14 +55,6 @@ public class Robot extends TimedRobot {
    */
 
   public void robotInit() {
-
-    // Initialize the Operator Interface
-    OI = new OI();
-
-    // Initialize the subsystems
-    DriveSubsystem = new DriveSubsystem();
-    ClimberSubsystem = new ClimberSubsystem();
-    ArmSubsystem = new ArmSubsystem();
 
     DriveCommand = new DriveCommand();
 
@@ -81,8 +72,8 @@ public class Robot extends TimedRobot {
 
     // // Camera stream source: http://roborio-TEAM-frc.local:1181/?action=stream
 
-    UsbCamera Camera = CameraServer.getInstance().startAutomaticCapture(0);
-    Camera.setVideoMode(VideoMode.PixelFormat.kMJPEG, 640, 360, 30);
+    // UsbCamera Camera = CameraServer.getInstance().startAutomaticCapture(0);
+    // Camera.setVideoMode(VideoMode.PixelFormat.kMJPEG, 640, 360, 30);
     // Camera.setResolution(640, 480);
 
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
@@ -127,10 +118,6 @@ public class Robot extends TimedRobot {
 
   public void autonomousPeriodic() {
 
-    // Put Left and Right Vision widgets (list boolean box)
-   // SmartDashboard.putBoolean("Left", VisionCommand.getLeftVisionInView(TapeYaw.getDouble(0.0)));
-   // SmartDashboard.putBoolean("Right", VisionCommand.getRightVisionInView(TapeYaw.getDouble(0.0)));
-
     Scheduler.getInstance().run();
 
     DriveCommand.start();
@@ -143,12 +130,14 @@ public class Robot extends TimedRobot {
 
   public void teleopPeriodic() {
 
-    // Put Left and Right Vision widgets (list boolean box)
-  //  SmartDashboard.putBoolean("Left", VisionCommand.getLeftVisionInView(TapeYaw.getDouble(0.0)));
-  //  SmartDashboard.putBoolean("Right", VisionCommand.getRightVisionInView(TapeYaw.getDouble(0.0)));
+    System.out.println(ArmSubsystem.getCurrentAngle());
+    System.out.println(WristSubsystem.getCurrentAngle());
 
     SmartDashboard.putNumber("Arm Angle", ArmSubsystem.getCurrentAngle());
-    SmartDashboard.putNumber("Setpoint", ArmSubsystem.getSetpoint());
+    SmartDashboard.putNumber("Wrist Angle", WristSubsystem.getCurrentAngle());
+
+    SmartDashboard.putNumber("Arm Setpoint", ArmSubsystem.getSetpoint());
+    SmartDashboard.putNumber("Wrist Setpoint", WristSubsystem.getSetpoint());
 
     Scheduler.getInstance().run();
 

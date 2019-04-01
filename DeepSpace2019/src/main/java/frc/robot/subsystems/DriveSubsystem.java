@@ -83,18 +83,12 @@ public class DriveSubsystem extends Subsystem {
   
   }
 
-  // This method toggles and calls for the change
-  public void toggleHatchMech () {
-    toggleHatch = !toggleHatch;
-    moveHatchMech();
-  }
-
   // This method calls the appropriate hatch moving action
-  public void moveHatchMech () {
-    if (toggleHatch) {
+  public void toggleHatchMech (boolean toggle, boolean release) {
+    if (toggle) {
       Hatch.set(Relay.Value.kForward);
-    } else if (!toggleHatch) {
-      Hatch.set(Relay.Value.kReverse);
+    } else if (release) {
+      Hatch.set(Relay.Value.kOff);
     }
   }
 

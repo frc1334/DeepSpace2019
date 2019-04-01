@@ -13,8 +13,9 @@ public class MoveWrist extends Command {
   WristSubsystem.WristPos position;
 
   public MoveWrist(double dAngle) {
-    this.dAngle = dAngle;
     requires(Robot.WristSubsystem);
+
+    this.dAngle = dAngle;
   }
 
   // Called just before this Command runs the first time
@@ -23,7 +24,7 @@ public class MoveWrist extends Command {
 
   // Called repeatedly when this Command is scheduled to run
   protected void execute() {
-    Robot.WristSubsystem.setSetpoint(dAngle);
+    Robot.WristSubsystem.setPIDAngle(dAngle);
   }
 
   // Make this return true when this Command no longer needs to run execute()
