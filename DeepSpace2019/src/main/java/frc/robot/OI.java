@@ -23,12 +23,18 @@ public class OI {
     // Operator controls
     public static final XboxController Operator = new XboxController(1);
     
-    public static JoystickButton aButton = new JoystickButton(Operator, 1);
-    public static JoystickButton bButton = new JoystickButton(Operator, 2);
-    public static JoystickButton xButton = new JoystickButton(Operator, 3);
-    public static JoystickButton yButton = new JoystickButton(Operator, 4);
+    public static JoystickButton aButton;
+    public static JoystickButton bButton;
+    public static JoystickButton xButton;
+    public static JoystickButton yButton;
 
     public OI () {
+
+        aButton = new JoystickButton(Operator, 1);
+        bButton = new JoystickButton(Operator, 2);
+        xButton = new JoystickButton(Operator, 3);
+        yButton = new JoystickButton(Operator, 4);
+
         aButton.whenPressed(new DefaultPosition());
         //bButton.whenPressed(new GroundIntake());
         bButton.whenPressed(new MoveArm(30));
