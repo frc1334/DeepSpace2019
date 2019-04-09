@@ -18,12 +18,11 @@ public class MoveArm extends Command {
 
   // Called just before this Command runs the first time
   protected void initialize() {
+    Robot.ArmSubsystem.setPIDAngle(dAngle);
   }
 
   // Called repeatedly when this Command is scheduled to run
   protected void execute() {
-    System.out.println("RUNNING ARM PID");
-    Robot.ArmSubsystem.setPIDAngle(dAngle);
   }
 
   // Make this return true when this Command no longer needs to run execute()
