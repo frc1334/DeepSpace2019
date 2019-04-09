@@ -18,7 +18,6 @@ public class DriveCommand extends Command {
   
   public DriveCommand() {
     requires(Robot.DriveSubsystem);
-    requires(Robot.ArmSubsystem);
     requires(Robot.ClimberSubsystem);
   }
 
@@ -43,14 +42,6 @@ public class DriveCommand extends Command {
 
     // Drive based on the response of the Driver's speed and steer
     Robot.DriveSubsystem.ArcadeDrive(OI.getDriverSpeed(), OI.getDriverSteer());
-
-    // Intake Code
-    
-    // Use intake
-    Robot.ArmSubsystem.intake(OI.getIntake(), OI.getOuttake());
-
-    // Use hatch intake
-    Robot.DriveSubsystem.toggleHatchMech(OI.activateHatchOp(), OI.releaseHatchOp());
 
   }
 

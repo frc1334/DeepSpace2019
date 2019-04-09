@@ -7,12 +7,13 @@
 
 package frc.robot.commands;
 
+import frc.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 public class Intake extends Command {
   public Intake() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+    requires(Robot.IntakeSubsystem);
   }
 
   // Called just before this Command runs the first time

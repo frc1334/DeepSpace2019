@@ -2,12 +2,15 @@
 package frc.robot;
 
 import frc.robot.commands.positions.*;
+import frc.robot.commands.Intake;
+import frc.robot.commands.Outtake;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.HIDType;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.commands.MoveArm;
@@ -28,6 +31,9 @@ public class OI {
     public static JoystickButton xButton;
     public static JoystickButton yButton;
 
+    public static JoystickButton lTrigger;
+    public static JoystickButton rTrigger;
+
     public OI () {
 
         aButton = new JoystickButton(Operator, 1);
@@ -35,11 +41,18 @@ public class OI {
         xButton = new JoystickButton(Operator, 3);
         yButton = new JoystickButton(Operator, 4);
 
+        lTrigger = new JoystickButton(Operator, 5);
+        rTrigger = new JoystickButton(Operator, 6);
+
         aButton.whenPressed(new DefaultPosition());
-        //bButton.whenPressed(new GroundIntake());
         bButton.whenPressed(new MoveArm(30));
         xButton.whenPressed(new LowGoal());
         yButton.whenPressed(new MedGoal());
+
+        lTrigger.whenPressed(new Intake());
+        rTrigger.whenPressed(new Outtake());
+
+
     }
 
     // DRIVER

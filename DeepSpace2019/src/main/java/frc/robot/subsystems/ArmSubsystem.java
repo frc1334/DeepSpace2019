@@ -31,11 +31,6 @@ public class ArmSubsystem extends Subsystem {
     CLIMB3,
     PICKUP
   }
-  
-  // Intake Talons for Cargo
-  TalonSRX Intake = new TalonSRX(RobotMap.Intake);
-  // Ground Hatch Intake/Outtake Talon
-  TalonSRX GroundH = new TalonSRX(RobotMap.GroundH);
 
   // Arm Talons
 
@@ -46,8 +41,6 @@ public class ArmSubsystem extends Subsystem {
   public double angle;
   // This double records the destination angle (setpoint)
   public double dAngle;
-
-  Potentiometer aPot = new AnalogPotentiometer(RobotMap.aPot, 360, 0);
 
   public void initDefaultCommand () {
     ArmBase.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, 0);
@@ -66,22 +59,6 @@ public class ArmSubsystem extends Subsystem {
     angle = ArmBase.getSelectedSensorPosition(0);
   }
 
-  // This method takes in or shoots out a piece of cargo, depending on the direction of Talon spin given
-  public void intake (boolean in, boolean out) {
-    if (in) {
-      // Set the 2 intake talons to rotate inwards (negative power at 50%)
-      Intake.set(ControlMode.PercentOutput, -0.4);
-    } else if (out) {
-      Intake.set(ControlMode.PercentOutput, 0.55);
-    } else {
-      Intake.set(ControlMode.PercentOutput, 0);
-    }
-  }
-
-  public void stopGroundH () {
-    GroundH.set(ControlMode.PercentOutput, 0);
-  }
-
   // This method moves the arm base talon (power also acts as direction, negative is counter clockwise and positive is clockwise)
   public void moveArmBase (boolean clockwise) {
 
@@ -93,19 +70,12 @@ public class ArmSubsystem extends Subsystem {
       ArmBase.set(ControlMode.PercentOutput, -0.5);
     }
 
-    // Update the current angle
-    angle =  aPot.get();
-
-    // Update the destination angle (setpoint)
-    dAngle =  aPot.get();
+    updateAngle();
 
   }
 
   public void moveArmBasePercent (double power) {
     ArmBase.set(ControlMode.PercentOutput, (power * -0.75));
-
-    // Update the current angle
-    dAngle =  aPot.get();
   }
 
   // This method sets the destination angle/set point
