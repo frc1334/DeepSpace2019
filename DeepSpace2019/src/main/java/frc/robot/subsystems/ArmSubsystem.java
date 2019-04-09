@@ -1,7 +1,7 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -19,7 +19,7 @@ import frc.robot.sensors.LimitSwitch;
  * Add your docs here.
  */
 
-public class ArmSubsystem extends PIDSubsystem {
+public class ArmSubsystem extends Subsystem {
 
   public enum ArmPos {
     DEFAULT,
@@ -49,15 +49,6 @@ public class ArmSubsystem extends PIDSubsystem {
 
   Potentiometer aPot = new AnalogPotentiometer(RobotMap.aPot, 360, 0);
 
-  public ArmSubsystem () {
-    // Intert a subsystem name and PID values here
-    super("ArmSubsystem", Constants.kAP, Constants.kAI, Constants.kAD);
-    super.getPIDController().setInputRange(0.0, 360.0);
-    super.getPIDController().setOutputRange(0.0, 360.0);
-    super.getPIDController().setAbsoluteTolerance(Constants.kToleranceArm);
-    super.getPIDController().setContinuous(false);
-  }
-
   public void initDefaultCommand () {
     ArmBase.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, 0);
 
@@ -73,12 +64,6 @@ public class ArmSubsystem extends PIDSubsystem {
   // This ethod updates the current angle
   public void updateAngle () {
     angle = ArmBase.getSelectedSensorPosition(0);
-    // angle = aPot.get();
-  }
-
-  // This method updates the destination angle (for manual control and staying in place)
-  public void updateDAngle () {
-    dAngle = aPot.get();
   }
 
   // This method takes in or shoots out a piece of cargo, depending on the direction of Talon spin given
@@ -126,34 +111,6 @@ public class ArmSubsystem extends PIDSubsystem {
   // This method sets the destination angle/set point
   public void setDestAngle (double dAngle) {
     this.dAngle = dAngle;
-  }
-
-  protected double returnPIDInput () {
-    // Update the current angle
-    updateAngle();
-    // Return the current angle
-    return aPot.get();
-  }
-
-  public void usePIDOutputManual (double setpoint) {
-    // Error term (destination angle - output, output is the current angle)
-    double error = setpoint - angle;
-    System.out.println("In the method");
-    // If the arm needs to move counter clockwise (the error is negative) - current position is behind destination
-    if (Math.abs(error) > Constants.kToleranceArm && error < 0) {
-      System.out.println("Moving Counter clockwise");
-      moveArmBase(false);
-    } else if (Math.abs(error) > Constants.kToleranceArm && error > 0) {
-      // If the arm needs to move clockwise (the error is positive) - current position is in front of destination
-      moveArmBase(true);
-      System.out.println("Moving Clockwise");
-    }
-  } 
-
-  protected void usePIDOutput (double output) {
-    // Update the angle of the Arm
-    updateAngle();
-    ArmBase.set(ControlMode.Position, dAngle);
   }
 
   public void setPIDAngle (double setpoint) {

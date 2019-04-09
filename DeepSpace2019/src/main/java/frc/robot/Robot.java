@@ -136,9 +136,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Arm Angle", ArmSubsystem.getCurrentAngle());
     SmartDashboard.putNumber("Wrist Angle", WristSubsystem.getCurrentAngle());
 
-    SmartDashboard.putNumber("Arm Setpoint", ArmSubsystem.getSetpoint());
-    SmartDashboard.putNumber("Wrist Setpoint", WristSubsystem.getSetpoint());
-
     Scheduler.getInstance().run();
 
     DriveCommand.start();
