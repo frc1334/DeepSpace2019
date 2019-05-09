@@ -44,8 +44,8 @@ public class OI {
         lTrigger = new JoystickButton(Operator, 5);
         rTrigger = new JoystickButton(Operator, 6);
 
-        aButton.whenPressed(new DefaultPosition());
-        bButton.whenPressed(new MoveArm(30));
+        aButton.whenPressed(new MoveArm(700));
+        bButton.whenPressed(new MoveArm(470));
         xButton.whenPressed(new LowGoal());
         yButton.whenPressed(new MedGoal());
 

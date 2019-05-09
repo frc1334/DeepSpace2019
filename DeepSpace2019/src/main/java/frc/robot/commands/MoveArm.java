@@ -18,6 +18,7 @@ public class MoveArm extends Command {
 
   // Called just before this Command runs the first time
   protected void initialize() {
+    System.out.println("MOVING ARM ----------------------------");
     Robot.ArmSubsystem.setPIDAngle(dAngle);
   }
 

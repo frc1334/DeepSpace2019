@@ -9,6 +9,6 @@ public class DefaultPosition extends CommandGroup {
   
   public DefaultPosition() {
     System.out.println("Default Position");
-    addSequential(new MoveArm(40));
+    addSequential(new MoveArm(470));
   }
 }

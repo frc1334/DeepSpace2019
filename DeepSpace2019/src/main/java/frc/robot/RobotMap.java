@@ -15,9 +15,9 @@ public class RobotMap {
 
     // Arm / Intake
     public static final int Intake = 4;
-    public static final int ArmBase = 5;
-    public static final int Wrist = 6;
-    public static final int GroundH = 8;
+    public static final int ArmBase = 8;
+    public static final int Wrist = 5;
+    public static final int GroundH = 6;
 
     // Climber
     public static final int Climber1 = 9;

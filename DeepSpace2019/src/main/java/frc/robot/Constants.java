@@ -43,10 +43,10 @@ public class Constants {
     public static final double kArmEncoder = 360.0/1024.0;
 
     // Arm PID Constants
-    public static double kAP = 0.1; //0.05
-    public static double kAI = 0.1;  //0.1
-    public static double kAD = 0.1;  //0.3
-    public static double kAF = 0.1;  //0.1
+    public static double kAP = 0.53; //0.5
+    public static double kAI = 0.0015; //0.001
+    public static double kAD = 0.0075; //0.002
+    public static double kAF = 0.0; //0.0
 
     // Wrist PID Constants
     public static double kWP = 0.03;

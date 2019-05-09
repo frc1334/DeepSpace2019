@@ -2,9 +2,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.interfaces.Potentiometer;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -13,7 +10,6 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import frc.robot.RobotMap;
 import frc.robot.Constants;
 import frc.robot.Robot;
-import frc.robot.sensors.LimitSwitch;
 
 /**
  * Add your docs here.
@@ -45,10 +41,10 @@ public class ArmSubsystem extends Subsystem {
   public void initDefaultCommand () {
     ArmBase.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, 0);
 
-    ArmBase.config_kP(0, Constants.kAP);
-    ArmBase.config_kI(0, Constants.kAI);
-    ArmBase.config_kD(0, Constants.kAD);
-    ArmBase.config_kF(0, Constants.kAF);
+    ArmBase.config_kP(0, Constants.kAP, 0);
+    ArmBase.config_kI(0, Constants.kAI, 0);
+    ArmBase.config_kD(0, Constants.kAD, 0);
+    ArmBase.config_kF(0, Constants.kAF, 0);
 
     ArmBase.configPeakOutputForward(1);
     ArmBase.configPeakOutputReverse(-1);
